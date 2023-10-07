@@ -72,12 +72,12 @@ CREATE TABLE if not exists line (
     #single = 0 (make default in python)
     #daily = 1
     #weekly = 2
-    #bi-weekly = 3
+    #bi-monthly = 3
     #monthly = 4
     #quarterly = 5
-    #bi-annual= 6
-    #yearly = 7
-    #bi-centennial = 8
+    #bi-annually= 6
+    #annually = 7
+    #every other year = 8
     #*DO NOT USE 8 IN PYTHON SCRIPT* 
         #** 9 & 10 = no current association determined but may allow a complexity for occurrences**
     #DO: 0 or 1 or 2 ...or 8
