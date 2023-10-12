@@ -1,0 +1,21 @@
+from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    principal = float(request.form['principal'])
+    rate = float(request.form['rate']) / 100
+    time = float(request.form['time'])
+
+    interest = principal * rate * time
+    total = principal + interest
+
+    return jsonify(interest=interest, total=total)
+
+if __name__ == '__main__':
+    app.run(debug=True)
