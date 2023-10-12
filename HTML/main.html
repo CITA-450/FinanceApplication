@@ -3,13 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title>Finance Application</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-</head>
-<body>
     
-<py-script> print("hello") </py-script>
+    <style>
+        table {
+          font-family: Arial, sans-serif;
+          border-collapse: collapse;
+          width: 65%;
+        }
+        
+        td, th {
+          border: 3px solid rgb(0, 0, 0);
+          text-align: left;
+          padding: 10px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: rgb(82, 131, 180);
+        }
+        #profile-dropdown {
+          text-align: left;
+          margin-left: 50px;
+      }
+    </style>
+</head>
+<body style="background-color: rgba(7, 161, 212, 0.763);">
+    <h1>Finance Application</h1>
+    <div id="dropdown-container" style="text-align: right;">
+      <!-- Profile information will be loaded here dynamically -->
+      <select id="profile-dropdown">
+        <option value="user1">Edit Profile</option>
+        <option value="user2">Settings</option>
+        <option value="user3">Logout</option>
+      </select>
+    </div>
 
+    <h1>User Account</h1>
+    <table>
+        <tr>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Maryam Aifa</td>
+            <td>Maryamaifa95@gmail.com</td>
+            <td>Cita-450</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 </body>
 </html>
