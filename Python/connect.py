@@ -1,13 +1,14 @@
+#no longer in use
+
 import pymysql
 
-class MySQLConnector:
+class connector:
     def __init__(self, host, port, user, password, database):
         self.host = host
         self.port = port
         self.user = user
         self.password = password
         self.database = database
-        self.connection = None
 
     def connect(self):
         try:
@@ -42,11 +43,11 @@ class MySQLConnector:
 
 # Example usage:
 #if __name__ == "__main__":
-#    host = "your_remote_host"  # Replace with your MySQL server's hostname or IP address
-#    port = 3306  # Replace with the MySQL port (default is 3306)
-#    user = "your_username"
-#    password = "your_password"
-#    database = "your_database_name"
+#    host = "localhost"
+#    port = 3306
+#    user = "root"
+#    password = "bowl7173"
+#    database = "db_cita450"
 
 #   connector = MySQLConnector(host, port, user, password, database)
 #    connector.connect()
