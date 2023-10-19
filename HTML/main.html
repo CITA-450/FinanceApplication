@@ -50,25 +50,11 @@
             <th>User Name</th>
             <th>Email</th>
             <th>Password</th>
-            <th></th>
-            <th></th>
-            <th></th>
         </tr>
         <tr>
-            <td>Maryam Aifa</td>
+            <td id="userName">Maryam Aifa</td>
             <td>Maryamaifa95@gmail.com</td>
-            <td>Cita-450</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="userPassword">Cita-450</td>
         </tr>
     </table>
     <script>
@@ -94,7 +80,18 @@
                   break;
           }
       });
+
   </script>
+
+  <script> updatedName = localStorage.getItem("updatedName");
+  var updatedPassword = localStorage.getItem("updatedPassword");
+
+  // Display the updated data if it exists
+  if (updatedName && updatedPassword) {
+      // Update the user name and password in the table
+      document.getElementById("userName").textContent = updatedName;
+      document.getElementById("userPassword").textContent = updatedPassword;
+  }
+</script>
 </body>
 </html>
-
