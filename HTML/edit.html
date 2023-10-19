@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Application</title>
+    <title>Edit profile</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    
+
     <style>
         table {
           font-family: Arial, sans-serif;
@@ -22,7 +22,7 @@
         }
         
         tr:nth-child(even) {
-          background-color: rgb(82, 131, 180);
+          background-color: rgb(210, 247, 22);
         }
         
         #dropdown-container {
@@ -33,9 +33,20 @@
           margin-left: 50px;
         }
     </style>
+    
 </head>
-<body style="background-color: rgba(7, 161, 212, 0.763);">
-    <h1>Finance Application</h1>
+<body style="background-color: rgba(239, 146, 8, 0.763);">
+    <h1>
+        <button onclick="goBack()">Back
+
+        </button>
+    
+        <script style="height: 0px;" >
+            // Function to go back to the previous page (Finance Application)
+            function goBack() {
+                window.history.back();
+            }
+        </script></h1>
     <div id="dropdown-container">
       <select id="profile-dropdown">
         <option value="user1">Edit Profile</option>
@@ -71,6 +82,8 @@
             <td></td>
         </tr>
     </table>
+
+    
     <script>
       // Get the dropdown element
       var dropdown = document.getElementById("profile-dropdown");
@@ -82,7 +95,7 @@
           // Perform actions based on the selected option
           switch (selectedOption) {
               case "user1":
-                  window.location.href = "edit.html";;
+                window.location.href = "edit.html";;
                   break;
               case "user2":
                   alert("Settings option selected.");
@@ -97,4 +110,3 @@
   </script>
 </body>
 </html>
-
