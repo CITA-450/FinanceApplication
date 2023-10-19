@@ -1,0 +1,23 @@
+  <title>Interest Calculator</title>
+</head>
+<body>
+    <h1>Interest Calculator</h1>
+    <form action="/calculate" method="post">
+        <label for="principal">Principal Amount:</label>
+        <input type="number" name="principal" id="principal" required><br><br>
+
+        <label for="rate">Interest Rate (in %):</label>
+        <input type="number" name="rate" id="rate" required><br><br>
+
+        <label for="time">Time (in years):</label>
+        <input type="number" name="time" id="time" required><br><br>
+
+        <input type="submit" value="Calculate Interest">
+    </form>
+
+    <div id="result">
+        <p>Interest Amount: $<span id="interest"></span></p>
+        <p>Total Amount: $<span id="total"></span></p>
+    </div>
+</body>
+</html>
