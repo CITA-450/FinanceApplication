@@ -1,7 +1,5 @@
 #For DB Named DB_cita450 
-#init DB
-CREATE DATABASE if not exists db_cita450;
-#create users table
+
 CREATE TABLE if not exists users (
 ##<<<_KEYS>>>
   #primary _key
