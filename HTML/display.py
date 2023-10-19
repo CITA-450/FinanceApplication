@@ -2,21 +2,29 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
+# Sample user information (for demonstration)
+user_info = {
+    'name': "John",
+    'password': "newpassword"
+}
+
 @app.route('/')
 def finance_application():
-    updated_name = "john"
-    updated_password = "newpassword"
-    return render_template('finance_application.html', name=updated_name, password=updated_password)
+    # Pass the user information to the finance_application template
+    return render_template('finance_application.html', user_info=user_info)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     if request.method == 'POST':
         new_name = request.form['new_name']
         new_password = request.form['new_password']
-        # Update user information in the database
+
+        # Update user information
+        user_info['name'] = new_name
+        user_info['password'] = new_password
+
         return redirect(url_for('finance_application'))
 
-    # Display the edit profile form
     return render_template('edit_profile.html')
 
 @app.route('/settings')

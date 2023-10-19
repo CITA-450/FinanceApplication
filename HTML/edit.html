@@ -88,19 +88,16 @@
   <script>
     // Function to update the user's profile (name and password)
     function updateProfile() {
-      var newName = document.getElementById("newName").value;
-      var newPassword = document.getElementById("newPassword").value;
+        var newName = document.getElementById("newName").value;
+        var newPassword = document.getElementById("newPassword").value;
 
-      // Store the updated data in local storage
-      localStorage.setItem("updatedName", newName);
-      localStorage.setItem("updatedPassword", newPassword);
+        // Store the updated data in local storage
+        localStorage.setItem("newName", newName);
+        localStorage.setItem("newPassword", newPassword);
 
-      // Provide a success message to the user
-      alert("Profile updated successfully!");
-
-      // After updating, you can return to the Finance Application
-      window.location.href = "finance.html";
-  }
+        // Provide a success message to the user
+        alert("Profile updated successfully!");
+    }
 </script>
 </body>
 </html>

@@ -52,9 +52,9 @@
             <th>Password</th>
         </tr>
         <tr>
-            <td id="userName">Maryam Aifa</td>
+            <td id="newName">Maryam Aifa</td>
             <td>Maryamaifa95@gmail.com</td>
-            <td id="userPassword">Cita-450</td>
+            <td id="newPassword">Cita-450</td>
         </tr>
     </table>
     <script>
@@ -68,7 +68,7 @@
           // Perform actions based on the selected option
           switch (selectedOption) {
               case "user1":
-                  window.location.href = "edit.html";;
+                  window.location.href = "edit.html";
                   break;
               case "user2":
                   alert("Settings option selected.");
@@ -80,18 +80,17 @@
                   break;
           }
       });
+      
+      // Retrieve the updated data from local storage
+      var updatedName = localStorage.getItem("newName");
+      var updatedPassword = localStorage.getItem("newPassword");
 
-  </script>
-
-  <script> updatedName = localStorage.getItem("updatedName");
-  var updatedPassword = localStorage.getItem("updatedPassword");
-
-  // Display the updated data if it exists
-  if (updatedName && updatedPassword) {
-      // Update the user name and password in the table
-      document.getElementById("userName").textContent = updatedName;
-      document.getElementById("userPassword").textContent = updatedPassword;
-  }
-</script>
+      // Display the updated data if it exists
+      if (updatedName && updatedPassword) {
+          // Update the user name and password in the table
+          document.getElementById("newName").textContent = updatedName;
+          document.getElementById("newPassword").textContent = updatedPassword;
+      }
+    </script>
 </body>
 </html>
