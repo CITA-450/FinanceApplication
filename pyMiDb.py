@@ -1,7 +1,7 @@
 from lib import cnx
 import os
 
-os.listdir('FinanceApplication')
+
 #init DB
 
 queryCrt = "CREATE DATABASE if not exists db_cita450;"
@@ -12,9 +12,9 @@ pathTableLine = f'\\dotsql\\db_cita450_line.sql'
 
 Qry1 = cnx.connMySQL(queryCrt)
 Qry2 = cnx.conn(queryDB)
-Qry3 = cnx.runSQL(pathTableUser)
-Qry4 = cnx.runSQL(pathTableLedger)
-Qry5 = cnx.runSQL(pathTableLine)
+#Qry3 = cnx.runSQL(pathTableUser)
+#Qry4 = cnx.runSQL(pathTableLedger)
+#Qry5 = cnx.runSQL(pathTableLine)
 print()
 print(Qry2)
 
