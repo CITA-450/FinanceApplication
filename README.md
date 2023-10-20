@@ -3,3 +3,4 @@
 
 
 1) To init DB use pyMiDb
+2) When running app.py use 'python -m flask run' in virtual environment terminal
