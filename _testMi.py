@@ -1,4 +1,18 @@
-from Python.lib import ConnectionManager as cm, ClassManager as csm
+"""from sqlalchemy import create_engine, text
 
 
-Test1 = csm.User()
+#test db
+
+engine = create_engine("sqlite:///test.db")
+
+
+with engine.connect() as connection:
+    result = connection.execute()
+    
+    print(result.all())"""
+
+
+
+ 
+    
+    
