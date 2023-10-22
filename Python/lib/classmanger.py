@@ -7,10 +7,14 @@ Calling information for an established instance can be done using:
 [class].get%%%%()
 or using the connection manager to query the Db'''
 
+import sqlalchemy
+from sqlalchemy.orm import DeclarativeBase, Mapped
 
-from sqlalchemy.orm import DeclarativeBase, Mapped, 
-global DataBase = "sqlite:///liteDB_cita450.db"
-global password = "P@$$w0rD!"
+
+global password
+global DataBase 
+DataBase = "sqlite:///liteDB_cita450.db"
+password = "P@$$w0rD!"
 
 class Base(DeclarativeBase):#Base class the is inherated to the User,Portfolio,Line Classes
     pass
@@ -21,7 +25,7 @@ class User(Base):# User base class
     Username[str] = mapped_column(unique = True,nullable = False)
     Email[str] = (nullable = False)
     Backup_Email[str] = ('Backup_Email',String,default= None)
-    Passwd[str] = (nullable = False,default= f'{password}',)
+    Passwd[str] = (nullable = False,default= f'{password}')
     def __init__(self,ID,name,email0,passwd): # Define Self for the User class
         #The DB has the following fields: userID, userName, email, backup email, and password
         self.userID  = ID  #ID
