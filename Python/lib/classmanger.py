@@ -1,4 +1,9 @@
 # Class Manager
+from typing import Any
+import sqlalchemy
+from sqlalchemy.orm import DeclarativeBase, Mapped
+from sqlalchemy import orm,create_engine
+
 '''This is were all the table magic happens!
 The classess assign the attrabute for each table column.
 Calling information for an established instance can be done using:
@@ -7,25 +12,22 @@ Calling information for an established instance can be done using:
 [class].get%%%%()
 or using the connection manager to query the Db'''
 
-import sqlalchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped
-
-
-global password
-global DataBase 
-DataBase = "sqlite:///liteDB_cita450.db"
-password = "P@$$w0rD!"
-
 class Base(DeclarativeBase):#Base class the is inherated to the User,Portfolio,Line Classes
+    global password
+    global DataBase 
+    DataBase = "sqlite:///liteDB_cita450.db"
+    password = "P@$$w0rD!"
+    def __init__(self, **kw: Any):
+        super().__init__(**kw)
+        print("Base: init")
     pass
-
 class User(Base):# User base class
     __tablename__ = 'Account'
     ID:Mapped[int]= mapped_column(primary_key = True)
-    Username[str] = mapped_column(unique = True,nullable = False)
-    Email[str] = (nullable = False)
-    Backup_Email[str] = ('Backup_Email',String,default= None)
-    Passwd[str] = (nullable = False,default= f'{password}')
+    Username:Mapped[str] = mapped_column(unique = True,nullable = False)
+    Email:Mapped[str] = mapped_column(nullable = False)
+    Backup_Email:Mapped[str] = mapped_column(default= None)
+    Passwd:Mapped[str] = mapped_column(nullable = False,default= f'{password}')
     def __init__(self,ID,name,email0,passwd): # Define Self for the User class
         #The DB has the following fields: userID, userName, email, backup email, and password
         self.userID  = ID  #ID
@@ -86,10 +88,10 @@ class Ledger(Base):# Class Ledger
 class Line(Base):# Class Line: the lines populated in the ledger
     __tablename__ = 'Ledger'
     ID:Mapped[int]= mapped_column('User_ID', primary_key = True)
-    ldgID = ('Ledger_ID', Integer)
-    line_date = ('Line_Date',DATE,)
-    amount = ('Amount', float(2))
-    deCred = ('Deb_Cred', Boolean, default=True)
+    ldgID = ()
+    line_date = (DATE)
+    amount = ( float)
+    deCred = (Boolean, default=True)
     frq = ('Frequency', CHAR,default='S')#may change to 
     dtBgn = ('', Integer)
     dtEnd = ('Date_Begin', DATE, default= None)
