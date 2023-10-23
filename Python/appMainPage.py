@@ -2,7 +2,7 @@
 
 #imports flask using the template main in the templates folder
 from flask import Flask, render_template
-from lib import ConnectionManager
+#from lib import ConnectionManager
 #import os to find the templates folder thats in the HTML folder
 import os
 #Code to find the file path to main.html
