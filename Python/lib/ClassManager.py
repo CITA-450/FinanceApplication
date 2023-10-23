@@ -21,39 +21,40 @@ class Base(DeclarativeBase):#Base class the is inherated to the User,Portfolio,L
     
 class User(Base):# User base class
     __tablename__ = 'account'
-    UID:Mapped[int]= mapped_column(primary_key = True,autoincrement=True)
-    Username:Mapped[str] = mapped_column(unique = True,nullable = False)
+    UID:Mapped[int]= mapped_column(primary_key = True)
+    username:Mapped[str] = mapped_column(unique = True,nullable = False)
     Email:Mapped[str] = mapped_column(nullable = False)
-    Backup_Email:Mapped[str]
+    BackupEmail:Mapped[str]= mapped_column(nullable = True)
     Password:Mapped[str] = mapped_column(nullable = False,default= f'{password}')
     #portfolio:Mapped[List["Ledger"]] = relationship(back_populates = 'account')
     
     
-    def __init__(self,Username,Email,Backup_Email,Password): # Define Self for the User class
-        #The DB has the following fields: userID, userName, email, backup email, and password
-        self.userID  = None  #ID
-        self.userName = Username #Username
-        self.userEmail_0 = Email #email
-        self.userEmail_1 = Backup_Email #Backup email
-        self.userPass = Password # Password
-    def __repr__(self) -> str:
-        result =  f"Account ID= {self.userID}\nUsername = {self.userName}\nEmail = {self.userEmail_0}\nBackup Email= {self.userEmail_1}"
+    def __init__(self,username=str,Email=str,BackupEmail=str,Password=str): # Define Self for the User class
+        #The DB has the following fields: userID, username, email, backup email, and password
+        self.UID  = None  #ID
+        self.username = username #username
+        self.Email = Email #email
+        self.BackupEmail = BackupEmail #Backup email
+        self.Password = Password # Password
+    def __repr__(self) :#-> str:
+        result =  f"({self.UID}) {self.username} ({self.Email},{self.BackupEmail})"
+        print(result)
         return result
 # Get Functions
-    def details(self): # returns a list or details
+    def _details(self): # returns a list or details
         self.attributes = []
-        self.attributes = [self.userID,
-                           self.userName,
-                           self.userEmail_0,
-                           self.userEmail_1,
-                           self.userPass]
+        self.attributes = [self.UID,
+                           self.username,
+                           self.Email,
+                           self.BackupEmail,
+                           self.Password]
         print(f'User.details> {self.attributes}')
         return (self.attributes)
-    def dataSet(self): #return full titled data set on user
+    def _dataSet(self): #return full titled data set on user
         self.details()
         result = {}
         result = {'User_ID':self.attributes[0] ,
-                  'Username':self.attributes[1] ,
+                  'username':self.attributes[1] ,
                   'Email':self.attributes[2],
                   'Backup_Email':self.attributes[3],
                   'Password':self.attributes[4] }
@@ -61,8 +62,8 @@ class User(Base):# User base class
     def getID(self): # return User ID#
         result = self.userID
         return result
-    def getUserName(self):# return Username
-        result = self.userName
+    def getusername(self):# return username
+        result = self.username
         return result
     def getEmailMain(self):# return User main email
         result = self.userEmail_0
@@ -77,17 +78,17 @@ class User(Base):# User base class
 class Ledger(Base):# Class Ledger (Ledger in Portfolio)
     
     __tablename__ = 'portfolio'
-    PID:Mapped[int]= mapped_column(primary_key=True,autoincrement=True)
-    UID:Mapped[int] = mapped_column(ForeignKey('account.UID'),nullable=False)
+    PID:Mapped[int]= mapped_column(primary_key=True)
+    UID:Mapped[int] = mapped_column(ForeignKey('account.UID'))
     ledger_Name:Mapped[str] = mapped_column(nullable=False)
-    port_details:Mapped[str] = mapped_column(default='no details')
+    port_details:Mapped[str] = mapped_column('details', default='no details')
     #account:Mapped["User"] = relationship(back_populates='portfolio')
     #lines:Mapped[List["Line"]] = relationship(back_populates = 'portfolio')
     
-    def __init__(self,ID,UID,Username,details):
+    def __init__(self,ID,UID,username,details):
         self.ledgerID = ID
         self.account_ID = UID
-        self.ledgerName = Username
+        self.ledgerName = username
         self.l_details = details
     def details(self):
         self.attributes = []
@@ -96,7 +97,7 @@ class Ledger(Base):# Class Ledger (Ledger in Portfolio)
         return (self.attributes)
     def __repr__(self) -> str:
         result =  f"Ledger ID = {self.account_ID},\
-            Ledger Username = {self.ledgerName}\n\
+            Ledger username = {self.ledgerName}\n\
             Details = {self.l_details}"
         return result 
     
@@ -105,7 +106,7 @@ class Line(Base):# Class Line(Line in Ledger): the lines populated in the ledger
     
     __tablename__ = 'ledger'
     LID:Mapped[int]= mapped_column(primary_key = True,autoincrement=True)
-    PID:Mapped[int] = mapped_column(ForeignKey('portfolio.PID'),nullable=False)
+    PID:Mapped[int] = mapped_column(ForeignKey('portfolio.PID'))
     line_amount:Mapped[float] = mapped_column(nullable=False) 
     deb_Cred:Mapped[bool] = mapped_column(nullable=False,default=True)
     # Frequency Single= 'S',Daily = 'D', Weekly = 'W', Bi-monthly= 'B', monthly = 'M' , Half Year ='H', yearly = 'Y' disable = 'D'
@@ -116,7 +117,7 @@ class Line(Base):# Class Line(Line in Ledger): the lines populated in the ledger
     #ledger:Mapped["Ledger"] = relationship(back_populates='ledger')
 
     def __init__(self,ID,portfolio_ID,amount,debCred,frq,dateBgn,dateEnd,lineDtl): # Define Self for the User class
-        #The DB has the following fields: userID, userName, email, backup email, and password
+        #The DB has the following fields: userID, username, email, backup email, and password
         self.lineID  = ID  #ID
         self.ledger_id = portfolio_ID #ledger_id
         self.amount = amount # line Amount decimal(10,2) NOT NULL
@@ -187,11 +188,6 @@ class Line(Base):# Class Line(Line in Ledger): the lines populated in the ledger
         return result
 
 
-"""engine = create_engine(f'{DataBase}',echo=True)
-Base.metadata.create_all(bind=engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()"""
 
 
 
