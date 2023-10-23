@@ -17,32 +17,27 @@ or using the connection manager to query the Db'''
 
 class Base(DeclarativeBase):#Base class the is inherated to the User,Portfolio,Line Classes
 
-    def __init__(self, **kw: Any):
-        super().__init__(**kw)
-        print("Base: init")
     pass
+    
 class User(Base):# User base class
     __tablename__ = 'account'
-    UID:Mapped[int]= mapped_column(primary_key = True)
+    UID:Mapped[int]= mapped_column(primary_key = True,autoincrement=True)
     Username:Mapped[str] = mapped_column(unique = True,nullable = False)
     Email:Mapped[str] = mapped_column(nullable = False)
     Backup_Email:Mapped[str]
-    Passwd:Mapped[str] = mapped_column(nullable = False,default= f'{password}')
-    portfolio:Mapped[List["Ledger"]] = relationship(back_populates = 'account')
+    Password:Mapped[str] = mapped_column(nullable = False,default= f'{password}')
+    #portfolio:Mapped[List["Ledger"]] = relationship(back_populates = 'account')
     
     
-    def __init__(self,ID,name,email0,passwd): # Define Self for the User class
+    def __init__(self,Username,Email,Backup_Email,Password): # Define Self for the User class
         #The DB has the following fields: userID, userName, email, backup email, and password
-        self.userID  = ID  #ID
-        self.userName = name #name
-        self.userEmail_0 = email0 #email
-        self.userEmail_1 = None #Backup email
-        self.userPass = passwd # Password
+        self.userID  = None  #ID
+        self.userName = Username #Username
+        self.userEmail_0 = Email #email
+        self.userEmail_1 = Backup_Email #Backup email
+        self.userPass = Password # Password
     def __repr__(self) -> str:
-        result =  f"Account ID = {self.userID},\
-            Username = {self.userName}\n\
-            Email = {self.userEmail_0}\n\
-            Backup Email = {self.userEmail_1}"
+        result =  f"Account ID= {self.userID}\nUsername = {self.userName}\nEmail = {self.userEmail_0}\nBackup Email= {self.userEmail_1}"
         return result
 # Get Functions
     def details(self): # returns a list or details
@@ -82,17 +77,17 @@ class User(Base):# User base class
 class Ledger(Base):# Class Ledger (Ledger in Portfolio)
     
     __tablename__ = 'portfolio'
-    PID:Mapped[int]= mapped_column(primary_key=True)
+    PID:Mapped[int]= mapped_column(primary_key=True,autoincrement=True)
     UID:Mapped[int] = mapped_column(ForeignKey('account.UID'),nullable=False)
-    name:Mapped[str] = mapped_column(nullable=False)
-    details:Mapped[str] = mapped_column(default='no details')
-    user:Mapped["User"] = relationship(back_populates='portfolio')
-    portfolio:Mapped[List["Line"]] = relationship(back_populates = 'portfolio')
+    ledger_Name:Mapped[str] = mapped_column(nullable=False)
+    port_details:Mapped[str] = mapped_column(default='no details')
+    #account:Mapped["User"] = relationship(back_populates='portfolio')
+    #lines:Mapped[List["Line"]] = relationship(back_populates = 'portfolio')
     
-    def __init__(self,ID,usrFiD,name,details):
+    def __init__(self,ID,UID,Username,details):
         self.ledgerID = ID
-        self.account_ID = usrFiD
-        self.ledgerName = name
+        self.account_ID = UID
+        self.ledgerName = Username
         self.l_details = details
     def details(self):
         self.attributes = []
@@ -101,7 +96,7 @@ class Ledger(Base):# Class Ledger (Ledger in Portfolio)
         return (self.attributes)
     def __repr__(self) -> str:
         result =  f"Ledger ID = {self.account_ID},\
-            Ledger name = {self.ledgerName}\n\
+            Ledger Username = {self.ledgerName}\n\
             Details = {self.l_details}"
         return result 
     
@@ -109,17 +104,18 @@ class Ledger(Base):# Class Ledger (Ledger in Portfolio)
 class Line(Base):# Class Line(Line in Ledger): the lines populated in the ledger
     
     __tablename__ = 'ledger'
-    LID:Mapped[int]= mapped_column(primary_key = True)
+    LID:Mapped[int]= mapped_column(primary_key = True,autoincrement=True)
     PID:Mapped[int] = mapped_column(ForeignKey('portfolio.PID'),nullable=False)
-    amount:Mapped[float] = mapped_column(nullable=False) 
-    debCred:Mapped[bool] = mapped_column(nullable=False,default=True)
-    frq:Mapped[str] = mapped_column(CHAR,nullable=False,default='S')# Single= 'S',Daily = 'D', Weekly = 'W', Bi-monthly= 'B', monthly = 'M' , Half Year ='H', yearly = 'Y' disable = 'D'
-    datetBgn:Mapped[str] = mapped_column(DATE,nullable=False)
-    dateEnd:Mapped[str] = mapped_column(DATE,default= None)
-    lineDetail:Mapped[int] = mapped_column(default= None)
-    user:Mapped["Ledger"] = relationship(back_populates='ledger')
+    line_amount:Mapped[float] = mapped_column(nullable=False) 
+    deb_Cred:Mapped[bool] = mapped_column(nullable=False,default=True)
+    # Frequency Single= 'S',Daily = 'D', Weekly = 'W', Bi-monthly= 'B', monthly = 'M' , Half Year ='H', yearly = 'Y' disable = 'D'
+    line_frequency:Mapped[str] = mapped_column(CHAR,nullable=False,default='S')
+    datet_Bgn:Mapped[str] = mapped_column(DATE,nullable=False)
+    date_End:Mapped[str] = mapped_column(DATE,default= None)
+    line_Detail:Mapped[int] = mapped_column(default= None)
+    #ledger:Mapped["Ledger"] = relationship(back_populates='ledger')
 
-    def __init__(self, ID, portfolio_ID,amount,debCred,frq,dateBgn,dateEnd,lineDtl): # Define Self for the User class
+    def __init__(self,ID,portfolio_ID,amount,debCred,frq,dateBgn,dateEnd,lineDtl): # Define Self for the User class
         #The DB has the following fields: userID, userName, email, backup email, and password
         self.lineID  = ID  #ID
         self.ledger_id = portfolio_ID #ledger_id
