@@ -1,0 +1,32 @@
+
+       
+"""  session.add_all([user0,user1,user2,user3,user4,user5,user6,user7,user8])
+        session.commit()"""
+
+
+"""engine = create_engine(f'{DataBase}',echo=True)
+Base.metadata.create_all(bind=engine)
+
+Session = sessionmaker(bind=engine)
+session = Session()"""
+  
+"""with engine.connect() as connection:
+    result = connection.execute()
+    
+    print(result.all())""" 
+
+from Python.lib.ClassManager import User
+list = []
+names = ["Bob","Anne","Mark","Tina", "Ron", "Clyde","Mary", "Tony","nina"]
+email = "@testaccount.net"
+pw = "P@$$w0Rd"
+        
+for name in names:
+    try:
+        user = User(f"user{name}",f"{name}{email}",f"{pw}{name}")
+        #print(user)
+        list.append(user)
+    except all:
+            print('error')
+
+print(list)

@@ -1,0 +1,43 @@
+{% extends "base_auth.html" %} {% block title %}Portfolio{% endblock %} {% block
+content %}
+<h1 align="center">My Portfolio</h1>
+<ul class="list-group list-group-flush" id="Portfolio">
+  <!--*** Button needs work -->
+  <li class="form-group">
+    <h4 align="center">{{user.username}}</h4>
+
+    
+    <!--*** Button needs work -->
+  </li>
+</ul>
+
+
+<ul class="list-group list-group-flush" id="Portfolio">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{user}}
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+<form method="POST">
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Open Ledger</button>
+  </div>
+</form>
+<form method="POST">
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Open Ledger</button>
+  </div>
+</form>
+<form method="POST">
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Remove Ledger</button>
+  </div>
+</form>
+{% endblock %}

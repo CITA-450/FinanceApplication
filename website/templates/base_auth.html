@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav">
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link" id="home" href="/home">Home</a>
+          <a class="nav-item nav-link" id="portfolio" href="/portfolio"
+          >Portfolio</a          >
+          <a class="nav-item nav-link" id="support" href="/public/calculator"
+          >Calculator</a          >
+          <a class="nav-item nav-link" id="about" href="/public/about">About</a>
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          <div  class="settings wrapper svelte-14p79g3">
+    
+                  </svg></button> <style data-svelte-h="svelte-1adm154">#settings-button {
+                display: "/settings";
+              }</style>
+             <a  id="settings-button-ns" class="btn btn--icon btn--sm svelte-14p79g3 nav-item nav-link" href="/settings" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" class="icon"  align="right" viewBox="1 1 26 26">
+              <path fill="currentColor" fill-rule="evenodd" d="M13 18.143c-.062 0-.125 0-.188-.003l-.857 1.305a.927.927 0 0 1-1.027.384A7.5 
+              7.5 0 0 1 7.8 18.04a.921.921 0 0 1-.18-1.084l.713-1.39a5.435 5.435 0 0 1-.183-.313l-1.574-.084a.922.922 0 0 1-.85-.69 7.335 7.335 0 0 
+              1-.226-1.797c0-.605.077-1.206.226-1.797.1-.393.448-.67.847-.69l1.577-.083c.057-.106.118-.21.183-.314l-.712-1.39a.922.922 0 0 1 .18-1.084 7.496 7.496 0 0 1 
+              3.126-1.788.928.928 0 0 1 1.028.384l.857 1.305a5.415 5.415 0 0 1 .376 0l.857-1.305a.928.928 0 0 1 1.027-.385c1.178.335 2.25.95 3.128 1.79a.923.923 0 0 1 .18
+               1.084l-.713 1.39c.064.102.125.207.183.313l1.574.083c.401.02.75.297.85.691.15.59.226 1.191.226 1.796a7.34 7.34 0 0 1-.226 1.798.922.922 0 0 
+               1-.847.69l-1.577.083c-.058.106-.119.21-.183.313l.713 1.392a.923.923 0 0 1-.181 1.083 7.5 7.5 0 0 1-3.126 1.788.928.928 0 0 1-1.028-.384l-.857-1.305a5.415 5.415
+                0 0 1-.188.003Zm-1.926.503.943-1.437a.588.588 0 0 1 .546-.263 4.652 4.652 0 0 0 .874 0c.216-.02.427.08.546.263l.944 1.437a6.323 6.323 0 0 0 2.319-1.324l-.783-1.529a.587.587
+                 0 0 1 .047-.612 4.32 4.32 0 0 0 .432-.741c.09-.2.285-.332.503-.343l1.734-.092c.096-.437.146-.879.146-1.323 0-.444-.05-.886-.146-1.322l-1.733-.092a.588.588 0 0 1-.504-.343
+                  4.316 4.316 0 0 0-.432-.741.587.587 0 0 1-.047-.613l.783-1.528a6.325 6.325 0 0 0-2.32-1.324l-.943 1.437a.588.588 0 0 1-.546.262 4.642 4.642 0 0 0-.874 0 .588.588 
+                  0 0 1-.546-.262l-.943-1.437a6.322 6.322 0 0 0-2.32 1.324l.783 1.528a.587.587 0 0 1-.047.613c-.17.235-.314.482-.431.74a.588.588 0 0 1-.504.344l-1.733.092a6.124 6.124
+                   0 0 0-.146 1.322c0 .444.05.886.146 1.323l1.733.092a.588.588 0 0 1 .504.344c.117.258.261.505.431.74.13.179.148.416.047.612l-.783 1.529a6.324 6.324 
+                   0 0 0 2.32 1.324Zm-.807-5.964a2.733 2.733 0 1 1 5.466 0 2.733 2.733 0 0 1-5.466 0Zm1.176 0a1.557 1.557 0 1 0 3.115 0 1.557 1.557 0 0 0-3.115 0Z" 
+                   ></path></svg></a></div>
+          </div>
+          {% else %}
+          <a class="nav-item nav-link" id="welcome" href="/">Welcome</a>
+          <a class="nav-item nav-link" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          <a class="nav-item nav-link" id="calculator" href="/public/calculator"
+            >Calculator</a
+          >
+          <a class="nav-item nav-link" id="support" href="/public/support"
+            >Support</a
+          >
+          <a class="nav-item nav-link" id="about" href="/public/about" aria-label="Settings">About</a>
+        
+          {% endif %} 
+        </div>
+      </div>
+
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div class="container">{% block content %} {% endblock %}</div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    {% block javascript %}
+    <script type="text/javascript">
+      function deleteNote(noteId) {
+        fetch("/delete-note", {
+          method: "POST",
+          body: JSON.stringify({ noteId: noteId }),
+        }).then((_res) => {
+          window.location.href = "/home";
+        });
+      }
+    </script>
+    {% endblock %}
+  </body>
+  <foot>
+    <h6 size="3" align="center">Copywrite students@morrisville.edu 2023</h6>
+  </foot>
+</html>

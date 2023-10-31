@@ -1,0 +1,32 @@
+{% extends "base_auth.html" %} {% block title %}About{% endblock %} {% block
+content %}
+<form method="POST">
+  <h2 align="center"></h2>
+  <h2 align="center">About Us</h2>
+  <h5 align="center">This is test about our app about text!</h5>
+  <h4 align="center">For support</h4>
+
+  <div class="form-group">
+    <div class="form-group">
+      <label for="comment">Comment</label>
+      <input
+        type="comment"
+        class="form-control"
+        id="comment"
+        name="comment"
+        placeholder="Enter comments here"
+      />
+      <label for="email"></label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter response email"
+      />
+    </div>
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Send</button>
+</form>
+{% endblock %}

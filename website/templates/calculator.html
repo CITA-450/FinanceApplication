@@ -1,0 +1,28 @@
+{% extends "base_auth.html" %} {% block title %}Calculator{% endblock %} {% block content
+  %}
+  <form method="POST">
+    <h3 align="center">Loan Calculator</h3>
+    <div class="form-group">
+      <label for="email">Loan Total</label>
+      <input
+        type="loan"
+        class="form-control"
+        id="loan"
+        name="loan"
+        placeholder="Enter loan amount"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">APR</label>
+      <input
+        type="APR"
+        class="form-control"
+        id="APR"
+        name="APR"
+        placeholder="Enter APR"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Calculate</button>
+  </form>
+  {% endblock %}

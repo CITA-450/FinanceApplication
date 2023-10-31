@@ -1,0 +1,28 @@
+{% extends "base_auth.html" %} {% block title %}Support{% endblock %} {% block
+content %}
+<form method="POST">
+  <h3 align="center">Support</h3>
+  <div class="form-group">
+    <label for="email">Email us!</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Enter your email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">Comment</label>
+    <input
+      type="comment"
+      class="form-control"
+      id="comment"
+      name="comment"
+      placeholder='Enter comment or questions (ex. "I got locked out")'
+    />
+  </div>
+  <br />
+  <button type="submit" class="btn btn-primary">Send</button>
+</form>
+{% endblock %}
