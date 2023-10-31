@@ -105,7 +105,7 @@ def createAdmin():
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
 
-        user = User.query.filter_by(email=email).first()
+        user = Admin.query.filter_by(email=email).first()
         if user:
             flash("Email already exists.", category="error")
         elif len(email) < 4:
@@ -130,6 +130,33 @@ def createAdmin():
             return redirect(url_for("views.welcome"))
 
     return render_template("sign_upadmin.html", user=current_user)
+#
+#
+# ADMIN_LOGIN
+@auth.route("login_admin/", methods=["GET", "POST"])
+def loginAdmin():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        user = Admin.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash("Logged in successfully!", category="success")
+                login_user(user, remember=True)
+                if user.enabled_user == True:
+                    return redirect(url_for("views.home"))
+                else:
+                    return (
+                        "<h1>Account Disabled!</h1><h3>*See- violation: policies. </h3>"
+                    )
+            else:
+                flash("WTF!", category="error")
+                flash("Incorrect password, use KeePass!", category="error")
+        else:
+            flash("Email does not exist.", category="error")
+
+    return render_template("login_admin.html", user=current_user)
 #
 #
 # ----------<END>------------------------------------------------------------------------------------#
