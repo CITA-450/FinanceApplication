@@ -20,6 +20,10 @@ def sha256(i):
     printProccess('sha256')
     printReturn(sha,process='sha256')
     return sha
+
+def defaultPorfolio(user):
+    pass
+    
 #----------<TESTMAIN>------------------------------------------------------------------------------------#    
 #TEST
 if __name__ == '__main__':
