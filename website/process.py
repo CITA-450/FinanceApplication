@@ -12,7 +12,7 @@ def printProccess(*args):
 
 #PRINT_RETURN
 def printReturn(*args, **kwargs):
-    print(f'Process= <{args,kwargs}>')
+    print(f'Return= <{args,kwargs}>')
             
 #SHA256
 def sha256(i):

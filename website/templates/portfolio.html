@@ -1,10 +1,8 @@
 {% extends "base_auth.html" %} {% block title %}Portfolio{% endblock %} {% block
 content %}
 <h1 align="center">My Portfolio</h1>
-  <h4 align="center">_________</h4>
-    <h4 align="center">Ledgers</h4>
 
-    
+
 <ul class="list-group list-group-flush" id="Notes">
   {% for note in user.note %}
   <li class="list-group-item">
@@ -14,14 +12,19 @@ content %}
     </button>
   </li>
   {% endfor %}
+  <h4 align="center">_________</h4>
+    <h4 align="center">Ledgers</h4>
   <ul class="list-group list-group-flush" id="Portfolio">
   {% for portfolio in user.portfolio %}
     <li class="list-group-item">
       {{portfolio.ledger_name}}-
-      <button type="button" class="close" onClick="openLedger({{ portfolio.id }})">
-        <span aria-hidden="true">&times;</span>
+      <button type="submit" class="close" >
+        <a class="nav-item nav-link" onClick="openLedger({{ portfolio.id }})">Open</a>
+        <span aria-hidden="false"></span>
+        <a class="nav-item nav-link" id="add-to-view" href="/sign-up">Add</a>
       </button>
     </li>
+    <!--*** onClick="openLedger({{ portfolio.id }})" -->
   {% endfor %}
 <form method="POST">
   <form method="POST">
@@ -53,11 +56,13 @@ content %}
   </div>
   <br />
   <div align="center">
-    <button type="submit" class="btn btn-primary">Open Ledger</button>
+     <!--<button type="submit" class="btn btn-primary">Open Ledger</button> -->
+    
   </div>
   <br />
   <div align="center">
-    <button type="submit" class="btn btn-primary">Remove Ledger</button>
+        <!--<button type="submit" class="btn btn-primary">Remove Ledger</button> -->
+    
   </div>
 </form>
 {% endblock %}

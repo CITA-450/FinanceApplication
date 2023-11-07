@@ -7,7 +7,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import Note, User, Portfolio,Admin,Ledger
+from .models import Note, User, Portfolio,Admin,Ledger 
 from . import db
 import json
 #
@@ -96,6 +96,70 @@ def welcome():
     return render_template("welcome.html", user=current_user)
 #
 #
+# ----------<APP_PAGES>------------------------------------------------------------------------------------#
+# PORTFOLIO
+@views.route("/portfolio/", methods=["GET", "POST"])
+@login_required
+def portfolio():
+    uid = current_user.id #get user id to validate database prerequisites
+    
+    pid = Portfolio.query.filter_by(user_id=uid).first()
+    print(f"<User= {uid}>")
+    print(f"<Ledgers= {pid}>")
+    #if no portfolio ledgers exist, create the default set
+    if pid == None:
+        if request.method == 'GET':
+            Exp = 'Expences'
+            Bill =  'Bills'
+            Loan = 'Loans'
+            Tax = 'Taxes'
+            Sub =  'Subscriptions'
+            Sal =  'Salary'
+            Sav = 'Savings' 
+            Othr = 'Other'
+            #create list that can be pass into a for loop           
+            list = [Exp,Bill,Loan,Tax,Sub,Sal,Sav,Othr]
+            #for each list item create a new ledger in portfolio na    
+            for data in list:
+                try:
+                    new_portfolio = Portfolio(
+                        ledger_name = data,
+                        details = f'My {data} Ledger',
+                        user_id = uid
+                        )
+                    db.session.commit()                    
+                    db.session.add(new_portfolio)
+                except Exception as e :
+                    print("Error creating portfolio")
+                    print(e)    
+    return render_template("portfolio.html", user=current_user)   
+#
+#
+#LEDGER
+@views.route("/ledger/", methods=["GET", "POST"])
+@login_required
+def ledger():
+    data = request.args
+    if request.method == "GET":
+        print(data)
+
+  
+    
+
+        return render_template("ledger.html", user=current_user)
+    else:
+        return render_template("ledger.html", user=current_user)
+        
+#
+#
+# CALCULATOR
+@public.route("/calculator/", methods=["GET", "POST"])
+def calculator():
+    data = request.form
+    print(data)
+    return render_template("calculator.html", user=current_user)
+#
+#
 # ----------<FUNCTIONS>------------------------------------------------------------------------------------#
 #
 #
@@ -122,14 +186,19 @@ def delete_note():
 @login_required
 def open_ledger():
     print('Open Ledger')
-    ledger = json.loads(request.data)
-    ledgerID = ledger["ledgerID"]
-    ledger = Portfolio.query.get(ledgerID)
-    if ledger:
+    portfolio = json.loads(request.data)
+    portfolioId = portfolio["portfolioId"]
+    portfolio = Portfolio.query.get(portfolioId)
+    print(portfolio)
+    if portfolio:
         if portfolio.user_id == current_user.id:
-            print("open_ledger user test")
-    print(jsonify({}))
-    return jsonify({})   
+            print(jsonify({}))
+            #return redirect(url_for('views.ledger',pid=portfolioId,user=current_user))
+    return jsonify({})
+    
+            
+  
+           
             
 #
 #
@@ -153,61 +222,6 @@ def about():
 @login_required
 def settings():
     return render_template("settings.html", user=current_user)
-#
-#
-# ----------<APP_PAGES>------------------------------------------------------------------------------------#
-# PORTFOLIO
-@views.route("/portfolio/", methods=["GET", "POST"])
-@login_required
-def portfolio():
-    this_user = current_user
-    uid = this_user.id
-    pid = {}
-    pid = Portfolio.query.filter_by(user_id=uid).all()
-    print(f"<User= {uid}>")
-    print(f"<Ledgers= {pid}>")
-    if pid == None:
-        if request.method == 'GET':
-            Exp = 'Expences'
-            Bill =  'Bills'
-            Loan = 'Loans'
-            Tax = 'Taxes'
-            Sub =  'Subscriptions'
-            Sal =  'Salary'            
-            list = [Exp,Bill,Loan,Tax,Sub,Sal]
-                
-            for data in list:
-                try:
-                    new_portfolio = Portfolio(
-                        ledger_name = data,
-                        details = f"My {data}",
-                        user_id = this_user.id
-                        )
-                        
-                    db.session.add(new_portfolio)
-                    db.session.commit()                    
-                except Exception as e :
-                    print("Error creating portfolio")
-                    print(e)    
-    return render_template("portfolio.html", user=current_user)   
-#
-#
-#LEDGER
-@views.route("/ledger/", methods=["GET", "POST"])
-@login_required
-def ledger(ledgerID):
-    ledger = ledgerID
-    print(f'Access ledger {ledger}')
-    
-    return render_template("ledger.html", user=current_user, id = ledgerID)
-#
-#
-# CALCULATOR
-@public.route("/calculator/", methods=["GET", "POST"])
-def calculator():
-    data = request.form
-    print(data)
-    return render_template("calculator.html", user=current_user)
 #
 #
 # ----------<END>------------------------------------------------------------------------------------#
