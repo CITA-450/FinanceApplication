@@ -127,7 +127,7 @@ def createAdmin():
             login_user(new_user, remember=True)
             flash("Success!", category="success")
             flash("Account created!", category="success")
-            return redirect(url_for("views.welcome"))
+            return redirect(url_for("views.dashboardAdmin"))
 
     return render_template("sign_upadmin.html", user=current_user)
 #
@@ -139,13 +139,13 @@ def loginAdmin():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = Admin.query.filter_by(email=email).first()
-        if user:
-            if check_password_hash(user.password, password):
+        admin = Admin.query.filter_by(email=email).first()
+        if admin:
+            if check_password_hash(admin.password, password):
                 flash("Logged in successfully!", category="success")
-                login_user(user, remember=True)
-                if user.enabled_user == True:
-                    return redirect(url_for("views.home"))
+                login_user(admin, remember=True)
+                if admin.enabled_user == True:
+                    return redirect(url_for("views.dashboardAdmin"))
                 else:
                     return (
                         "<h1>Account Disabled!</h1><h3>*See- violation: policies. </h3>"

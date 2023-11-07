@@ -121,4 +121,15 @@ def calculator():
     return render_template("calculator.html", user=current_user)
 #
 #
+# ----------<ADMIN_PAGES>------------------------------------------------------------------------------------#
+#
+# DASHBOARD
+@views.route("/dashboard_admin/", methods=["GET", "POST"])
+@login_required
+def dashboardAdmin():
+    return render_template("dashboard_admin.html", user=current_user)
+#
+#
+#
+#
 # ----------<END>------------------------------------------------------------------------------------#
