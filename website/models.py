@@ -28,7 +28,7 @@ single = 1/termM
 #----------<LEDGER>------------------------------------------------------------------------------------#
 class currentLedger:
     id:int
-    def __init__(self,id)
+    def __init__(self,id):
         id = None
 class Ledger(db.Model): #Budget Ledger Lines
     

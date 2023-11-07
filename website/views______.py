@@ -47,48 +47,13 @@ def welcome():
         email = request.form.get("email")
         username = request.form.get("username")
 
-        user_ee = User.query.filter_by(email=email).first()
-        user_eu = User.query.filter_by(email=username).first()
-        admin_ea = Admin.query.filter_by(email=email).first()
-        admin_ua = Admin.query.filter_by(email=username).first()
-        user_be = User.query.filter_by(backup_email=email).first()
-        user_bu = User.query.filter_by(backup_email=username).first()
-        user_ue = User.query.filter_by(username=email).first()
-        user_uu = User.query.filter_by(username=username).first()
-        if user_ee:
             flash("Email or username already taken.", category="error")
             return render_template("welcome.html", user=current_user)
-        if user_eu:
             flash("Email or username already taken.", category="error")
             return render_template("welcome.html", user=current_user)
-        if user_be:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if user_bu:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if user_ue:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if user_uu:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if admin_ea:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if admin_ua:
-            flash("Email or username already taken.", category="error")
-            return render_template("welcome.html", user=current_user)
-        if len(email) > 4:
-            if len(username) > 2:
-                flash(f"-Email-'{email}' -Username-'{username}' Available!", category="success")
-                return render_template("sign_up.html", user=current_user)
-            else:
-                flash("Username must be more than 2 characters!", category="error")
-                return render_template("welcome.html", user=current_user)
-
         else:
             flash("Email must be more than 4 characters!", category="error")
+            flash("Email and username are available.", category="success")
             return render_template("welcome.html", user=current_user)
 
     flash(f"We hope you choose our app! {userDetails}")
@@ -176,7 +141,6 @@ def delete_note():
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
-    print(jsonify({}))
 
     return jsonify({})
 
@@ -222,11 +186,49 @@ def about():
 @login_required
 def settings():
     return render_template("settings.html", user=current_user)
+
+#
+#
+# ----------<APP_PAGES>------------------------------------------------------------------------------------#
+# PORTFOLIO
+@views.route("/portfolio/", methods=["GET", "POST"])
+@login_required
+def portfolio():
+    return render_template("portfolio.html", user=current_user)
+
+
+#
+#
+# CALCULATOR
+@public.route("/calculator/", methods=["GET", "POST"])
+
+# Function to calculate simple interest
+
+#ATER!......PLEASE READ
+#THIS IS BROKEN PLEASE FIX(These functions need to be called by a "POST" method; wherein you are taking the data from the HTML form(or as jasonified string) and parsing the fields for the values that we intend to us in your calculation.  There parameters, are then passed to your function witch should intern display the information accordingly.  This should most likely be accomplished using a dedicated class object that should be instantiated at the begining of the "if POST" conditional method)
+#SEE THE SIGN_UP PAGE OR HINTS ON THE SYNTAX
+def calculator():#THIS IS BROKEN PLEASE FIX
+    def calculate_simple_interest(principal, rate, time):#THIS IS BROKEN PLEASE FIX
+        interest = (principal * rate * time) / 100#THIS IS BROKEN PLEASE FIX
+        return interest#THIS IS BROKEN PLEASE FIX
+
+
+        # Input principal amount, rate, and time from the user
+        principal = float(input("Enter the principal amount: "))#THIS IS BROKEN PLEASE FIX
+        rate = float(input("Enter the annual interest rate: "))#THIS IS BROKEN PLEASE FIX
+        time = float(input("Enter the time period (in years): "))#THIS IS BROKEN PLEASE FIX
+
+        # Calculate the simple interest
+        simple_interest = calculate_simple_interest(principal, rate, time)#THIS IS BROKEN PLEASE FIX
+
+        # Display the result
+        print(f"Principal Amount: ${principal}")#THIS IS BROKEN PLEASE FIX
+        print(f"Annual Interest Rate: {rate}%")#THIS IS BROKEN PLEASE FIX
+        print(f"Time Period: {time} years")#THIS IS BROKEN PLEASE FIX
+        print(f"Simple Interest: ${simple_interest:.2f}")#THIS IS BROKEN PLEASE FIX
+        
+    return render_template("calculator.html", user=current_user)
+
 #
 #
 # ----------<END>------------------------------------------------------------------------------------#
-@public.route("/test/", methods=["GET", "POST"])
-def test():
-    data = request.form
-    print(data)
-    return render_template("test.html", user=current_user)
