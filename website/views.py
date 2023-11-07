@@ -201,26 +201,33 @@ def portfolio():
 #
 # CALCULATOR
 @public.route("/calculator/", methods=["GET", "POST"])
+
 # Function to calculate simple interest
-def calculate_simple_interest(principal, rate, time):
-    interest = (principal * rate * time) / 100
-    return interest
+
+#ATER!......PLEASE READ
+#THIS IS BROKEN PLEASE FIX(These functions need to be called by a "POST" method; wherein you are taking the data from the HTML form(or as jasonified string) and parsing the fields for the values that we intend to us in your calculation.  There parameters, are then passed to your function witch should intern display the information accordingly.  This should most likely be accomplished using a dedicated class object that should be instantiated at the begining of the "if POST" conditional method)
+#SEE THE SIGN_UP PAGE OR HINTS ON THE SYNTAX
+def calculator():#THIS IS BROKEN PLEASE FIX
+    def calculate_simple_interest(principal, rate, time):#THIS IS BROKEN PLEASE FIX
+        interest = (principal * rate * time) / 100#THIS IS BROKEN PLEASE FIX
+        return interest#THIS IS BROKEN PLEASE FIX
 
 
-# Input principal amount, rate, and time from the user
-principal = float(input("Enter the principal amount: "))
-rate = float(input("Enter the annual interest rate: "))
-time = float(input("Enter the time period (in years): "))
+        # Input principal amount, rate, and time from the user
+        principal = float(input("Enter the principal amount: "))#THIS IS BROKEN PLEASE FIX
+        rate = float(input("Enter the annual interest rate: "))#THIS IS BROKEN PLEASE FIX
+        time = float(input("Enter the time period (in years): "))#THIS IS BROKEN PLEASE FIX
 
-# Calculate the simple interest
-simple_interest = calculate_simple_interest(principal, rate, time)
+        # Calculate the simple interest
+        simple_interest = calculate_simple_interest(principal, rate, time)#THIS IS BROKEN PLEASE FIX
 
-# Display the result
-print(f"Principal Amount: ${principal}")
-print(f"Annual Interest Rate: {rate}%")
-print(f"Time Period: {time} years")
-print(f"Simple Interest: ${simple_interest:.2f}")
-return render_template("calculator.html", user=current_user)
+        # Display the result
+        print(f"Principal Amount: ${principal}")#THIS IS BROKEN PLEASE FIX
+        print(f"Annual Interest Rate: {rate}%")#THIS IS BROKEN PLEASE FIX
+        print(f"Time Period: {time} years")#THIS IS BROKEN PLEASE FIX
+        print(f"Simple Interest: ${simple_interest:.2f}")#THIS IS BROKEN PLEASE FIX
+        
+    return render_template("calculator.html", user=current_user)
 
 #
 #
