@@ -1,24 +1,36 @@
 #----------<VIEWS.PY>------------------------------------------------------------------------------------#
-#
-#
-#
+
 #----------<IMPORTS>------------------------------------------------------------------------------------#
-#
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import Note, User, Portfolio,Admin,Ledger 
 from . import db
 import json
+from datetime import datetime
 #
 # ----------------------------------------------------------------------------------------------#
-#
 # BLUEPRINT:create instance of the instance path blueprint
 views = Blueprint("views", __name__)
 public = Blueprint("public", __name__, template_folder="/public/")
-#
-#
+
+# ----------------<Vars/Lists>------------------------------------------------------------------------------#
+FREQUENCY_TO_DAYS = {
+    'single': 1,       # Single entry, no conversion needed
+    'daily': 1,        # Daily, already per day
+    'weekly': 7,       # Weekly
+    'bi-weekly': 14,   # Bi-weekly
+    'monthly': 30,     # Approximation
+    'quarterly': 91,   # Approximation
+    'yearly': 365      # Common year
+}
+
 # ----------<LANDING_PAGES>------------------------------------------------------------------------------------#
+
+
+
+
+
 # # HOME
 @views.route("/home/", methods=["GET", "POST"])
 @login_required
@@ -132,13 +144,21 @@ def portfolio():
                 except Exception as e :
                     print("Error creating portfolio")
                     print(e)    
-    return render_template("portfolio.html", user=current_user)   
+    # Query for the user's ledgers
+   # ledgers = Portfolio.query.filter_by(user_id=current_user.id).all()
+
+    # Query for recent activity log (e.g., last 10 ledger entries or edits)
+    recent_activities = Ledger.query.filter_by(user_id=current_user.id).order_by(Ledger.timestamp.desc()).limit(10)
+
+    return render_template("portfolio.html", recent_activities=recent_activities,user=current_user)
+ 
 #
 #
 #LEDGER
 @views.route("/ledger/", methods=["GET", "POST"])
 @login_required
 def ledger():
+    ledger_name = request.args.get('ledger')
     data = request.args
     if request.method == "GET":
         print(data)
@@ -146,7 +166,7 @@ def ledger():
   
     
 
-        return render_template("ledger.html", user=current_user)
+        return render_template("ledger.html",default_ledger=ledger_name ,user=current_user)
     else:
         return render_template("ledger.html", user=current_user)
         
@@ -180,6 +200,56 @@ def delete_note():
 
     return jsonify({})
 
+
+
+
+@views.route('/add_ledger_entry', methods=['GET','POST'])
+def add_ledger_entry():
+    ledger_name = request.form.get('ledger')
+    frequency = request.form.get('frequency')
+    name = request.form.get('name')
+    description = request.form.get('description')
+    amount = float(request.form.get('amount'))
+    start_date_str = request.form.get('start_date')
+    end_date_str = request.form.get('end_date')
+    
+    uid = current_user.id #get user id to validate database prerequisites
+    
+    pid = Portfolio.query.filter_by(ledger_name=ledger_name).first()
+
+    # Convert the frequency to a daily amount
+    if frequency in FREQUENCY_TO_DAYS:
+        days = FREQUENCY_TO_DAYS[frequency]
+        amount /= days
+    else:
+        flash('Invalid frequency selected.', 'error')
+        return redirect(url_for('views.ledger'))
+
+    # Convert date strings to datetime objects
+    try:
+        start_date = datetime.strptime(start_date_str, '%d/%m/%Y')
+        end_date = datetime.strptime(end_date_str, '%d/%m/%Y') if end_date_str else None
+
+        # Validate that start date is not in the future and end date is not before start date
+        if start_date > datetime.now():
+            flash('Start date cannot be in the future.', 'error')
+            return redirect(url_for('views.ledger'))
+
+        if end_date and end_date < start_date:
+            flash('End date cannot be before start date.', 'error')
+            return redirect(url_for('views.ledger'))
+
+    except ValueError:
+        flash('Invalid date format. Please use DD/MM/YYYY.', 'error')
+        return redirect(url_for('views.ledger'))
+
+    # Create and save the new ledger entry
+    new_ledger_entry = Ledger(port_id = pid.id, name=name, description=description, amount=amount, start_date=start_date, end_date=end_date)
+    db.session.add(new_ledger_entry)
+    db.session.commit()
+
+    flash('New ledger entry added successfully!', 'success')
+    return redirect(url_for('views.ledger'))
 
 # Open Ledger
 @views.route("/open-ledger", methods=["POST"])
