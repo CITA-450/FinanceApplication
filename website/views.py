@@ -293,6 +293,12 @@ def about():
 def settings():
     return render_template("settings.html", user=current_user)
 #
+# ----------<ADMIN>------------------------------------------------------------------------------------#
+#
+@views.route("/dashboard_admin/", methods=["GET", "POST"])
+@login_required
+def dashboard_admin():
+    return render_template("dashboard_admin.html", user=current_user)
 #
 # ----------<END>------------------------------------------------------------------------------------#
 @public.route("/test/", methods=["GET", "POST"])

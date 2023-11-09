@@ -128,7 +128,7 @@ def createAdmin():
             login_user(new_user, remember=True)
             flash("Success!", category="success")
             flash("Account created!", category="success")
-            return redirect(url_for("views.dashboardAdmin"))
+            return redirect(url_for("views.dashboard_Admin"))
 
     return render_template("sign_upadmin.html", user=current_user)
 #
@@ -146,7 +146,7 @@ def loginAdmin():
                 flash("Logged in successfully!", category="success")
                 login_user(user, remember=True)
                 if user.enabled_user == True:
-                    return redirect(url_for("views.dashboardAdmin"))
+                    return redirect(url_for("views.dashboard_admin"))
                 else:
                     return (
                         "<h1>Account Disabled!</h1><h3>*See- violation: policies. </h3>"
