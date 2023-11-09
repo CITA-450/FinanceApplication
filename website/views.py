@@ -175,44 +175,6 @@ def ledger():
 # CALCULATOR
 @public.route("/calculator/", methods=["GET", "POST"])
 def calculator():
-    class InterestCalculator:
-    def __init__(self, principal, rate, time):
-        self.principal = principal
-        self.rate = rate
-        self.time = time
-
-    def calculate_simple_interest(self):
-        interest = (self.principal * self.rate * self.time) / 100
-        return interest
-
-    def calculate_compound_interest(self):
-        amount = self.principal * (1 + self.rate / 100) ** self.time
-        interest = amount - self.principal
-        return interest
-
-def get_user_input():
-    principal = float(input("Enter the principal amount: "))
-    rate = float(input("Enter the interest rate: "))
-    time = float(input("Enter the time period (in years): "))
-    return principal, rate, time
-
-def display_results(interest):
-    print("The calculated interest amount is:", interest)
-
-def main():
-    principal, rate, time = get_user_input()
-    calculator = InterestCalculator(principal, rate, time)
-    simple_interest = calculator.calculate_simple_interest()
-    compound_interest = calculator.calculate_compound_interest()
-
-    print("Simple Interest Calculation:")
-    display_results(simple_interest)
-
-    print("Compound Interest Calculation:")
-    display_results(compound_interest)
-
-if __name__ == "__main__":
-    main()
     data = request.form
     print(data)
     return render_template("calculator.html", user=current_user)
@@ -330,70 +292,6 @@ def about():
 @login_required
 def settings():
     return render_template("settings.html", user=current_user)
-<<<<<<< Updated upstream
-=======
-
-
-#
-#
-# ----------<APP_PAGES>------------------------------------------------------------------------------------#
-# PORTFOLIO
-@views.route("/portfolio/", methods=["GET", "POST"])
-@login_required
-def portfolio():
-    return render_template("portfolio.html", user=current_user)
-
-
-#
-#
-# CALCULATOR
-@public.route("/calculator/", methods=["GET", "POST"])
-# Function to calculate simple interest
-class InterestCalculator:
-    def __init__(self, principal, rate, time):
-        self.principal = principal
-        self.rate = rate
-        self.time = time
-
-    def calculate_simple_interest(self):
-        interest = (self.principal * self.rate * self.time) / 100
-        return interest
-
-    def calculate_compound_interest(self):
-        amount = self.principal * (1 + self.rate / 100) ** self.time
-        interest = amount - self.principal
-        return interest
-
-
-def get_user_input():
-    principal = float(input("Enter the principal amount: "))
-    rate = float(input("Enter the interest rate: "))
-    time = float(input("Enter the time period (in years): "))
-    return principal, rate, time
-
-
-def display_results(interest):
-    print("The calculated interest amount is:", interest)
-
-
-def main():
-    principal, rate, time = get_user_input()
-    calculator = InterestCalculator(principal, rate, time)
-    simple_interest = calculator.calculate_simple_interest()
-    compound_interest = calculator.calculate_compound_interest()
-
-    print("Simple Interest Calculation:")
-    display_results(simple_interest)
-
-    print("Compound Interest Calculation:")
-    display_results(compound_interest)
-
-
-if __name__ == "__main__":
-    main()
-return render_template("calculator.html", user=current_user)
-
->>>>>>> Stashed changes
 #
 #
 # ----------<END>------------------------------------------------------------------------------------#
