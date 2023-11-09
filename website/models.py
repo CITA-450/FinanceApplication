@@ -35,7 +35,7 @@ class Ledger(db.Model): #Budget Ledger Lines
     mult = single
     
     id= db.Column(db.Integer,primary_key=True)
-    timestamp= db.Column(db.DateTime(timezone=True), default=func.now()) #born on date
+    bod= db.Column(db.DateTime(timezone=True), default=func.now()) #born on date
     name= db.Column(db.String(15),default='!name')
     debt= db.Column(db.Boolean,default=False)
     amount= db.Column(db.Float(35),default=0.0)
@@ -47,7 +47,6 @@ class Ledger(db.Model): #Budget Ledger Lines
     apr= db.Column(db.Float(5),default=0.0)
     hide= db.Column(db.Boolean,default=False)
     port_id= db.Column(db.Integer,db.ForeignKey("portfolio.id"))
-    user_id= db.Column(db.Integer,db.ForeignKey("user.id"))
 
     def getPerAmount(self): # calculates the amount per actual occurance
         amount = self.amount
@@ -62,7 +61,7 @@ class Ledger(db.Model): #Budget Ledger Lines
             return c
         elif debt == False:
             return d 
-    """def __init__(self,id,bod,name,amount,modelClass,details,begin,end,freq,apr,port_id, *args, **kwargs):
+    def __init__(self,id,bod,name,amount,modelClass,details,begin,end,freq,apr,port_id, *args, **kwargs):
         id = self.id
         bod = self.bod
         name = self.name
@@ -83,7 +82,7 @@ class Ledger(db.Model): #Budget Ledger Lines
     def __str__(self):
         gpa = self.getPerAmount()
         debtString = self.getDebtString()
-        return f"<{self.modelClass}.{self.name}>[{debtString}${gpa} per {self.freq.__name__}]" """
+        return f"<{self.modelClass}.{self.name}>[{debtString}${gpa} per {self.freq.__name__}]"
         
     
     
@@ -137,7 +136,7 @@ class Savings(Ledger,db.Model):#Other Income
     def __repr__():
         pass
 
-class Other(Ledger,db.Model):#Other Income
+class OthInc(Ledger,db.Model):#Other Income
     mult = single
     def __init__(self, *args, **kwargs):
         pass
@@ -155,7 +154,7 @@ class Portfolio(db.Model ):
     enabled= db.Column(db.Boolean,default=True)
     details= db.Column(db.String(150),default='none')
     user_id= db.Column(db.Integer,db.ForeignKey("user.id"))
-    portfolio= db.relationship("Ledger")
+    portfoli= db.relationship("Ledger")
 
 #----------<NOTES>------------------------------------------------------------------------------------#
 
@@ -177,14 +176,14 @@ class User(db.Model,UserMixin):# User class is the main accessor for the user da
     enabled_user= db.Column(db.Boolean,default=True)
     portfolio= db.relationship("Portfolio")
     notes= db.relationship("Note")
-    ledger= db.relationship("Ledger")
+    ledger= db
     
-    """ def __init__(self,id,bod,username,email,backup_email,password,enabled_user):
+    def __init__(self,id,bod,username,email,backup_email,password,enabled_user):
         pass
     def __repr__(self):
         pass
     def __str__(self):
-        pass"""
+        pass
         
 
 # Public Classes
