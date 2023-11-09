@@ -1,8 +1,22 @@
 {% extends "base_auth.html" %} {% block title %}Admin Dashboard{% endblock %} {% block content 
-%}
-    <h1 align="center">Admin Dashboard</h1>
-    <form method="POST">
-      <br />
-      <div align="center"> </div>
-    </form>
-    {% endblock %}
+  %}
+  <form method="POST">
+      <h1 align="center">Admin Dashboard</h1>
+      <form method="POST">
+        <br />
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter email"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Disable</button>
+      <button type="submit" class="btn btn-primary">Enable</button>
+        <div align="center"> </div>
+      </form>
+      {% endblock %}
