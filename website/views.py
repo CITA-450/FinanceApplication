@@ -121,8 +121,8 @@ def portfolio():
     #if no portfolio ledgers exist, create the default set
     if pid == None:
         if request.method == 'GET':
-            Exp = 'Expences'
             Bill =  'Bills'
+            Exp = 'Expenses'
             Loan = 'Loans'
             Tax = 'Taxes'
             Sub =  'Subscriptions'
@@ -158,18 +158,24 @@ def portfolio():
 @views.route("/ledger/", methods=["GET", "POST"])
 @login_required
 def ledger():
+    default_ledger = 'Expenses'
     ledger_name = request.args.get('ledger')
     data = request.args
+    ledgers = Ledger.query.all()  # Replace with your actual query
     if request.method == "GET":
         print(data)
-
-  
-    
-
-        return render_template("ledger.html",default_ledger=ledger_name ,user=current_user)
+        return render_template("ledger.html",default_ledger=ledger_name,ledgers=ledgers,user=current_user)
     else:
-        return render_template("ledger.html", user=current_user)
-        
+        return render_template("ledger.html", default_ledger=default_ledger,ledgers=ledgers,user=current_user)
+    
+# ... other routes ...
+
+@views.route('/delete_ledger_entry/<int:id>', methods=['POST'])
+def delete_ledger_entry(id):
+    ledger_to_delete = Ledger.query.get_or_404(id)
+    db.session.delete(ledger_to_delete)
+    db.session.commit()
+    return redirect(url_for('views.ledger'))        
 #
 #
 # CALCULATOR
@@ -205,17 +211,15 @@ def delete_note():
 
 @views.route('/add_ledger_entry', methods=['GET','POST'])
 def add_ledger_entry():
-    ledger_name = request.form.get('ledger')
+    ledger_name = request.form.get('ledger_name')
     frequency = request.form.get('frequency')
     name = request.form.get('name')
-    description = request.form.get('description')
+    details = request.form.get('description')
     amount = float(request.form.get('amount'))
     start_date_str = request.form.get('start_date')
     end_date_str = request.form.get('end_date')
     
-    uid = current_user.id #get user id to validate database prerequisites
     
-    pid = Portfolio.query.filter_by(ledger_name=ledger_name).first()
 
     # Convert the frequency to a daily amount
     if frequency in FREQUENCY_TO_DAYS:
@@ -227,11 +231,11 @@ def add_ledger_entry():
 
     # Convert date strings to datetime objects
     try:
-        start_date = datetime.strptime(start_date_str, '%d/%m/%Y')
-        end_date = datetime.strptime(end_date_str, '%d/%m/%Y') if end_date_str else None
+        start_date = datetime.strptime(start_date_str, '%d/%m/%Y').date()
+        end_date = datetime.strptime(end_date_str, '%d/%m/%Y').date() if end_date_str else None
 
         # Validate that start date is not in the future and end date is not before start date
-        if start_date > datetime.now():
+        if start_date > datetime.now().date():
             flash('Start date cannot be in the future.', 'error')
             return redirect(url_for('views.ledger'))
 
@@ -243,11 +247,36 @@ def add_ledger_entry():
         flash('Invalid date format. Please use DD/MM/YYYY.', 'error')
         return redirect(url_for('views.ledger'))
 
+    apr = 0.0
+    uid = current_user.id #get user id to validate database prerequisites
+    debt = True
+    if ledger_name == 'Salary':
+        debt = False
+    print(f"ledger_name: {ledger_name}, user_id: {uid}")
+    # Find the portfolio with the same name as the ledger_name and belongs to the current user
+    pid = Portfolio.query.filter_by(ledger_name=ledger_name, user_id=uid).first()
+    print(pid)
+    # If no matching portfolio is found, flash an error message and redirect
+    if not pid:
+        flash('No portfolio found with the given name.', 'error')
+        return redirect(url_for('views.ledger'))
+
     # Create and save the new ledger entry
-    new_ledger_entry = Ledger(port_id = pid.id, name=name, description=description, amount=amount, start_date=start_date, end_date=end_date)
+    new_ledger_entry = Ledger(name=name,
+                            debt=debt,
+                            amount=amount,
+                            freq=frequency,
+                            modelClass=ledger_name,
+                            details=details,
+                            begin=start_date,
+                            end=end_date,
+                            apr=apr,
+                            hide=False,
+                            port_id=pid.id,
+                            user_id=uid)
+
     db.session.add(new_ledger_entry)
     db.session.commit()
-
     flash('New ledger entry added successfully!', 'success')
     return redirect(url_for('views.ledger'))
 
