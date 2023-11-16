@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     />
 
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}BASE{% endblock %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -122,9 +122,25 @@
         });
       }
     </script>
+    <script type="text/javascript">
+      function openLedger(portfolioId) {
+        fetch("/open-ledger", {
+          method: "POST",
+          body: JSON.stringify({ portfolioId: portfolioId }),
+        }).then((_res) => {
+          sessionStorage.setItem("PID",'3');
+          window.location.href = "/ledger";
+          
+        });
+      }
+    </script>
     {% endblock %}
   </body>
   <foot>
+    <h6 size="3" align="center">______________________________________</h6>
+    <h6 size="3" align="center"> </h6>
     <h6 size="3" align="center">Copywrite students@morrisville.edu 2023</h6>
+
+
   </foot>
 </html>

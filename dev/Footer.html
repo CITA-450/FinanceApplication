@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Application</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <style>
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .footer-branding {
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .center-links {
+            display: flex;
+            justify-content: center;
+        }
+
+        .center-links a {
+            margin: 0 15px; /* Added margin for spacing */
+            text-decoration: none; /* Remove underlines from links */
+            color: #0074b7; /* Link color */
+            transition: color 0.3s; /* Smooth color transition */
+        }
+
+        .center-links a:hover {
+            color: #00568d; /* Hover link color */
+        }
+
+        /* Background and text color for the footer */
+        .footer-content {
+            background-color: #222; /* Background color */
+            color: #fff; /* Text color */
+        }
+
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .footer-branding p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        h1, h2 {
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+        }
+
+        .footer-branding {
+            border-top: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="Finance_logo.png" alt="Company Logo" class="logo">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script> 
+
+    <footer>
+        <div class="footer-branding">
+            <p>80 Eaton Street, Morrisville, NY, 13408</p>
+            <p>Phone: (123) 456-7890</p>
+            <p>Email: info@financeapp.com</p>
+            <p><a href="https://www.morrisville.edu/">Morrisville HomePage</a></p>
+
+            <div class="footer-links center-links">
+                <a href="http://localhost/">Home</a>
+                <a href="http://localhost/public/about/">About Us</a>
+                <a href="http://localhost/public/support/">Contact Us</a>
+                <a href="faq.html">FAQs</a>
+            </div>
+            <p class="centered">&copy; 2023 Finance Application. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

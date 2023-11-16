@@ -1,2 +1,10 @@
 *.db
 *Old
+directory/*.pyc
+*.pyc
+website/__pycache__/auth.cpython-312.pyc
+website/__pycache__/models.cpython-312.pyc
+website/__pycache__/views.cpython-312.pyc
+website/__pycache__/auth.cpython-312.pyc
+website/__pycache__/models.cpython-312.pyc
+website/__pycache__/views.cpython-312.pyc

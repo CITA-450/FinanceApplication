@@ -12,7 +12,7 @@ def printProccess(*args):
 
 #PRINT_RETURN
 def printReturn(*args, **kwargs):
-    print(f'Process= <{args,kwargs}>')
+    print(f'Return= <{args,kwargs}>')
             
 #SHA256
 def sha256(i):
@@ -20,6 +20,10 @@ def sha256(i):
     printProccess('sha256')
     printReturn(sha,process='sha256')
     return sha
+
+def defaultPorfolio(user):
+    pass
+    
 #----------<TESTMAIN>------------------------------------------------------------------------------------#    
 #TEST
 if __name__ == '__main__':

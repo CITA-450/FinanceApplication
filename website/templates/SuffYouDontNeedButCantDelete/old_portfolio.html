@@ -1,0 +1,68 @@
+{% extends "base_auth.html" %} {% block title %}Portfolio{% endblock %} {% block
+content %}
+<h1 align="center">My Portfolio</h1>
+
+
+<ul class="list-group list-group-flush" id="Notes">
+  {% for note in user.note %}
+  <li class="list-group-item">
+    {{note.data}}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+  <h4 align="center">_________</h4>
+    <h4 align="center">Ledgers</h4>
+  <ul class="list-group list-group-flush" id="Portfolio">
+  {% for portfolio in user.portfolio %}
+    <li class="list-group-item">
+      {{portfolio.ledger_name}}-
+      <button type="submit" class="close" >
+        <a class="nav-item nav-link" onClick="openLedger({{ portfolio.id }})">Open</a>
+        <span aria-hidden="false"></span>
+        <a class="nav-item nav-link" id="add-to-view" href="/sign-up">Add</a>
+      </button>
+    </li>
+    <!--*** onClick="openLedger({{ portfolio.id }})" -->
+  {% endfor %}
+<form method="POST">
+  <form method="POST">
+    <h4 align="center">_____________</h4>
+    <h4 align="center">New Ledger</h4>
+    <div class="form-group">
+      <label for="ledger_name">Ledger Name</label>
+      <input
+        type="ledger_name"
+        class="form-control"
+        id="ledger_name"
+        name="ledger_name"
+        placeholder="Name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="details">Description</label>
+      <input
+        type="details"
+        class="form-control"
+        id="details"
+        name="details"
+        placeholder="Description"
+      />
+    </div>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add New Ledger</button>
+  </div>
+  <br />
+  <div align="center">
+     <!--<button type="submit" class="btn btn-primary">Open Ledger</button> -->
+    
+  </div>
+  <br />
+  <div align="center">
+        <!--<button type="submit" class="btn btn-primary">Remove Ledger</button> -->
+    
+  </div>
+</form>
+{% endblock %}
