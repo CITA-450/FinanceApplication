@@ -85,65 +85,8 @@ class Ledger(db.Model): #Budget Ledger Lines
         debtString = self.getDebtString()
         return f"<{self.modelClass}.{self.name}>[{debtString}${gpa} per {self.freq.__name__}]" """
         
-    
-    
-class Exp(Ledger,db.Model):#Expences and Fees
-    mult = week
-    def __init__(self,*args, **kwargs):
-        pass
-    def __repr__():
-        pass
 
-        
-class Bill(Ledger,db.Model):#Bills
-    mult = month
-    def __init__(self, *args, **kwargs):
-        pass
-    def __repr__():
-        pass
-    
-class Subscription(Ledger,db.Model):#Subscriptions
-    mult = month
-    def __init__(self, *args, **kwargs):
-        pass
-    def __repr__():
-        pass
-
-class Tax(Ledger,db.Model):#Taxes 
-    mult = year
-    def __init__(self, *args, **kwargs):
-        pass
-    def __repr__():
-        pass
-
-class Loan(Ledger,db.Model):#Loans
-    mult = month
-    def __init__(self, *args, **kwargs):
-        pass
-    def __repr__():
-        pass
-
-class Salary(Ledger,db.Model):# Salary (default monthly)
-    mult = month
-    def __init__(self, *args, **kwargs):
-        pass
-    def __repr__():
-        pass
-class Savings(Ledger,db.Model):#Other Income
-    mult = single
-    def __init__(self, *args, **kwargs):
-        pass
-    
-    def __repr__():
-        pass
-
-class Other(Ledger,db.Model):#Other Income
-    mult = single
-    def __init__(self, *args, **kwargs):
-        pass
-    
-    def __repr__():
-        pass
+ 
 
 #----------<PORTFOLIO>------------------------------------------------------------------------------------#
 
