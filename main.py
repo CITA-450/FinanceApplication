@@ -22,10 +22,12 @@ app = create_app()
 
 if __name__ == '__main__':
     P.printProccess("<trigger>")
+    
     trigger = input("Do you want to launch your website? Y/n")
     if trigger == "":
         P.printProccess("debug")
         app.run(debug=True, host="localhost", port=80)
+        app.process.generate_test_accounts()
         exit()
     elif trigger == "y" or trigger == "Y":
         P.printProccess(f"hosting on: debug off {ip}")

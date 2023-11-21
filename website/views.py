@@ -135,7 +135,7 @@ def portfolio():
             for data in list:
                 try:
                     new_portfolio = Portfolio(
-                        ledger_name = data,
+                        name = data,
                         details = f'My {data} Ledger',
                         user_id = uid
                         )
@@ -159,12 +159,12 @@ def portfolio():
 @login_required
 def ledger():
     default_ledger = 'Expenses'
-    ledger_name = request.args.get('ledger')
+    name = request.args.get('ledger')
     data = request.args
     ledgers = Ledger.query.all()  # Replace with your actual query
     if request.method == "GET":
         print(data)
-        return render_template("ledger.html",default_ledger=ledger_name,ledgers=ledgers,user=current_user)
+        return render_template("ledger.html",default_ledger=name,ledgers=ledgers,user=current_user)
     else:
         return render_template("ledger.html", default_ledger=default_ledger,ledgers=ledgers,user=current_user)
     
@@ -211,7 +211,7 @@ def delete_note():
 
 @views.route('/add_ledger_entry', methods=['GET','POST'])
 def add_ledger_entry():
-    ledger_name = request.form.get('ledger_name')
+    name = request.form.get('name')
     frequency = request.form.get('frequency')
     name = request.form.get('name')
     details = request.form.get('description')
@@ -250,11 +250,11 @@ def add_ledger_entry():
     apr = 0.0
     uid = current_user.id #get user id to validate database prerequisites
     debt = True
-    if ledger_name == 'Salary':
+    if name == 'Salary':
         debt = False
-    print(f"ledger_name: {ledger_name}, user_id: {uid}")
-    # Find the portfolio with the same name as the ledger_name and belongs to the current user
-    pid = Portfolio.query.filter_by(ledger_name=ledger_name, user_id=uid).first()
+    print(f"name: {name}, user_id: {uid}")
+    # Find the portfolio with the same name as the name and belongs to the current user
+    pid = Portfolio.query.filter_by(name=name, user_id=uid).first()
     print(pid)
     # If no matching portfolio is found, flash an error message and redirect
     if not pid:
@@ -266,7 +266,7 @@ def add_ledger_entry():
                             debt=debt,
                             amount=amount,
                             freq=frequency,
-                            modelClass=ledger_name,
+                            modelClass=name,
                             details=details,
                             begin=start_date,
                             end=end_date,

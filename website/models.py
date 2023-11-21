@@ -36,7 +36,7 @@ class Ledger(db.Model): #Budget Ledger Lines
     
     id= db.Column(db.Integer,primary_key=True)
     timestamp= db.Column(db.DateTime(timezone=True), default=func.now()) #born on date
-    name= db.Column(db.String(15),default='!name')
+    #name= db.Column(db.String(15),db.References("portfolio.name"))
     debt= db.Column(db.Boolean,default=True)
     amount= db.Column(db.Float(35),default=0.0)
     modelClass= db.Column(db.String(150),default=None)
@@ -48,6 +48,8 @@ class Ledger(db.Model): #Budget Ledger Lines
     hide= db.Column(db.Boolean,default=False)
     port_id= db.Column(db.Integer,db.ForeignKey("portfolio.id"))
     user_id= db.Column(db.Integer,db.ForeignKey("user.id"))
+    portfolio = db.relationship('Portfolio', back_populates='ledgers')
+
 
     def getPerAmount(self): # calculates the amount per actual occurance
         amount = self.amount
@@ -94,11 +96,11 @@ class Portfolio(db.Model ):
    
     
     id= db.Column(db.Integer, primary_key=True)
-    ledger_name= db.Column(db.String(150))
+    name= db.Column(db.String(150))
     enabled= db.Column(db.Boolean,default=True)
     details= db.Column(db.String(150),default='none')
     user_id= db.Column(db.Integer,db.ForeignKey("user.id"))
-    portfolio= db.relationship("Ledger")
+    ledgers = db.relationship('Ledger', back_populates='portfolio')
 
 #----------<NOTES>------------------------------------------------------------------------------------#
 

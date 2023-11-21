@@ -5,15 +5,16 @@ Ledger
 <div class="btn-group" role="group" aria-label="Ledger buttons">
   <!-- Ledger buttons -->
   {% for portfolio in user.portfolio %}
-  <a href="{{ url_for('views.ledger',default_ledger=portfolio.ledger_name) }}" class="btn btn-secondary">{{portfolio.ledger_name}}-</a>
+  <a href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}" class="btn btn-secondary">{{portfolio.name}}-</a>
   {% endfor %}
+  
 </div>
   <h2>Add New Ledger Entry</h2>
 <form method="POST" action="{{ url_for('views.add_ledger_entry', default_ledger=default_ledger) }}">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="ledger">Select Ledger:</label>
-      <select class="form-control" id="ledger_name" name="ledger_name" required>
+      <select class="form-control" id="name" name="name" required>
         <option value="{{ request.args.get('default_ledger') }}">--{{ request.args.get('default_ledger') }}--</option>
 
         <option value="Bills">Bills</option>
@@ -72,26 +73,37 @@ Ledger
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-      <div>
-        <h2>Ledger Entries</h2>
+      </div>
+      __________________________________________________________________________________________________
+        <div class="ledger-entries">
+        <h2>Ledger:  {{ request.args.get('default_ledger') }}</h2>
         <ul class="list-group list-group-flush" id="ledger">
-          {% for ledger in ledgers %}
-          <li class="list-group-item">
-            <strong>Name:</strong> {{ ledger.name }}<br>
-            <strong>Amount(Per Day):</strong> ${{ ledger.amount }}<br>
-            <strong>Frequency:</strong> {{ ledger.freq }}<br>
-            <strong>Details:</strong> {{ ledger.details }}<br>
-            <strong>Begin Date:</strong> {{ ledger.begin }}<br>
-            <strong>End Date:</strong> {{ ledger.end }}<br>
-            <strong>APR:</strong> {{ ledger.apr }}<br>
-            <form method="POST" action="{{ url_for('views.delete_ledger_entry', id=ledger.id) }}" style="display: inline;">
-              <button type="submit" class="close" aria-label="Delete" style="background: none; border: none; padding: 0; color: #dc3545;">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </form>
-          </li>
+          {% for ledger in user.ledger %}
+            {% if ledger.portfolio.name == request.args.get('default_ledger')  %}
+              <li class="list-group-item">
+                <strong>Name:</strong> {{ ledger.portfolio.name }}<br>
+                <strong>Amount(Per Day):</strong> ${{ ledger.amount }}<br>
+                <strong>Frequency:</strong> {{ ledger.freq }}<br>
+                <strong>Details:</strong> {{ ledger.details }}<br>
+                <strong>Begin Date:</strong> {{ ledger.begin }}<br>
+                <strong>End Date:</strong> {{ ledger.end }}<br>
+                <strong>APR:</strong> {{ ledger.apr }}<br>
+                <form method="POST" action="{{ url_for('views.delete_ledger_entry', id=ledger.id) }}" style="display: inline;">
+                  <button type="submit" class="close" aria-label="Delete" style="background: none; border: none; padding: 0; color: #dc3545;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </form>
+            </li>
+            {% endif %}
           {% endfor %}
         </ul>
         </div>
+        __________________________________________________________________________________________________
+        <div class="container mt-4">
+          <h2>Update Ledger Entry</h2>
+          coming soon!
+          </div>
         {% endblock %}
+    <!-- method="POST" action="{{ url_for('views.update_ledger_entry', id=ledger.id) }}"-->
+       
     <!-- {{ form.hidden_tag() }}   CSRF token, assuming Flask-WTF is used -->
