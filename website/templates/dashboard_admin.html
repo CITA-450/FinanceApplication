@@ -1,8 +1,12 @@
 {% extends "base_auth.html" %} {% block title %}Admin Dashboard{% endblock %} {% block content 
 %}
     <h1 align="center">Admin Dashboard</h1>
-    <form method="POST">
-      <br />
-      <div align="center"> </div>
-    </form>
+    <br>
+    <h3 align="center">Enter User Email</h3>
+<form method="POST">
+  <textarea name="user" id="user" class="form-control"></textarea>
+  <button type="button" class="btn btn-primary" onClick='views.enable_user()' >Enable</button>
+  <button type="button" class="btn btn-primary" onClick='views.disable_user()' >Disable</button>
+  <br />
+</form>
     {% endblock %}

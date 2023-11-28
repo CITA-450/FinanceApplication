@@ -114,7 +114,7 @@ def createAdmin():
         elif email == backup_email:
             flash("backup email is the same as your main email!", category="warning")
         elif password1 != password2:
-            flash("Passowrds must match!", category="error")
+            flash("Passwords must match!", category="error")
         elif len(password1) < 7:
             flash("Password must be more than 7 characters!", category="error")
         else:
@@ -128,7 +128,7 @@ def createAdmin():
             login_user(new_user, remember=True)
             flash("Success!", category="success")
             flash("Account created!", category="success")
-            return redirect(url_for("views.dashboard_Admin"))
+            return redirect(url_for("views.dashboard_admin"))
 
     return render_template("sign_upadmin.html", user=current_user)
 #
