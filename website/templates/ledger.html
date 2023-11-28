@@ -14,7 +14,7 @@ Ledger
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="ledger">Select Ledger:</label>
-      <select class="form-control" id="name" name="name" required>
+      <select class="form-control" id="class" name="class" required>
         <option value="{{ request.args.get('default_ledger') }}">--{{ request.args.get('default_ledger') }}--</option>
 
         <option value="Bills">Bills</option>
@@ -81,7 +81,8 @@ Ledger
           {% for ledger in user.ledger %}
             {% if ledger.portfolio.name == request.args.get('default_ledger')  %}
               <li class="list-group-item">
-                <strong>Name:</strong> {{ ledger.portfolio.name }}<br>
+                <strong>Class:</strong> {{ ledger.portfolio.name }}<br>
+                <strong>Name:</strong> {{ ledger.name }}<br>
                 <strong>Amount(Per Day):</strong> ${{ ledger.amount }}<br>
                 <strong>Frequency:</strong> {{ ledger.freq }}<br>
                 <strong>Details:</strong> {{ ledger.details }}<br>

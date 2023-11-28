@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -36,6 +37,7 @@
           >Portfolio</a          >
           <a class="nav-item nav-link" id="support" href="/public/calculator"
           >Calculator</a          >
+          <a class="nav-item nav-link" id="notes" href="/notes">Notes</a>
           <a class="nav-item nav-link" id="about" href="/public/about">About</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           <div  class="settings wrapper svelte-14p79g3">
@@ -112,6 +114,12 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <style>
+      #myChart {
+          max-width: 400px;
+          max-height: 400px;
+      }
+      </style>
     {% block javascript %}
     <script type="text/javascript">
       function deleteNote(noteId) {

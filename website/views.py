@@ -2,12 +2,13 @@
 
 #----------<IMPORTS>------------------------------------------------------------------------------------#
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user, current_user
+#from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import  login_required, current_user
 from .models import Note, User, Portfolio,Admin,Ledger 
 from . import db
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+from . import process as p
 #
 # ----------------------------------------------------------------------------------------------#
 # BLUEPRINT:create instance of the instance path blueprint
@@ -26,15 +27,49 @@ FREQUENCY_TO_DAYS = {
 }
 
 # ----------<LANDING_PAGES>------------------------------------------------------------------------------------#
-
-
-
-
-
 # # HOME
 @views.route("/home/", methods=["GET", "POST"])
 @login_required
 def home():
+    range_days = request.args.get('range', default='30')  # Default to 30 days
+    start_date = datetime.today()
+    end_date= start_date  + timedelta(days=int(range_days))
+    session = db.session
+    ledger = Ledger
+    p.printProccess(start_date,end_date)
+    # Format dates into strings in the 'DD/MM/YYYY' format
+    start_date_str = start_date.strftime(f'%Y/%m/%d')
+    end_date_str = end_date.strftime(f'%Y/%m/%d')
+    # Query for the user's ledgers
+    if request.method == "POST":
+        # Update start and end dates based on form input
+        start_date_str = request.form.get("start_date")
+        end_date_str = request.form.get("end_date")
+        try:
+            start_date = datetime.strptime(start_date_str, f'%Y/%m/%d')
+            end_date = datetime.strptime(end_date_str, f'%Y/%m/%d')
+            start_date_str = start_date.strftime(f'%Y/%m/%d')
+            end_date_str = end_date.strftime(f'%Y/%m/%d')
+
+            if end_date < start_date:
+                flash('End date cannot be before start date.', 'error')
+                return redirect(url_for('views.home'))
+        except ValueError:
+            flash('Invalid date format. Please use DD/MM/YYYY.', 'error')
+            return redirect(url_for('views.home'))
+
+    # Fetch and process the data for the chart
+    chartData = p.query_and_process_ledger_entries(start_date_str, end_date_str, session, ledger)
+    # Calculate ratio
+    total = chartData['debit'] + chartData['credit'] + chartData['savings']
+    ratio = f"{chartData['debit']/total:.2f}:{chartData['credit']/total:.2f}:{chartData['savings']/total:.2f}" if total > 0 else "N/A"
+    p.printProccess(chartData)
+    return render_template("home.html", user=current_user, pie_data=chartData, ratio=ratio, range=range_days)
+
+    #return render_template("home.html", user=current_user, pie_data=categorized_totals)
+@views.route("/notes/", methods=["GET", "POST"])
+@login_required
+def notes():
     if request.method == "POST":
         note = request.form.get("note")  # Gets the note from the HTML
 
@@ -47,8 +82,8 @@ def home():
             db.session.add(new_note)  # adding the note to the database
             db.session.commit()
             flash("Note added!", category="success")
-
-    return render_template("home.html", user=current_user)
+            return render_template("notes.html", user=current_user)
+    return render_template("notes.html", user=current_user)
 #
 #
 # WELCOME check username and email
@@ -211,13 +246,13 @@ def delete_note():
 
 @views.route('/add_ledger_entry', methods=['GET','POST'])
 def add_ledger_entry():
-    name = request.form.get('name')
-    frequency = request.form.get('frequency')
-    name = request.form.get('name')
-    details = request.form.get('description')
-    amount = float(request.form.get('amount'))
-    start_date_str = request.form.get('start_date')
-    end_date_str = request.form.get('end_date')
+    modelClass = request.form.get('class') #select ledger class
+    frequency = request.form.get('frequency') #select frequency
+    name = request.form.get('name') #name of ledger
+    details = request.form.get('description') #description of ledger
+    amount = float(request.form.get('amount')) #amount of ledger
+    start_date_str = request.form.get('start_date') #start date of ledger
+    end_date_str = request.form.get('end_date')    #end date of ledger
     
     
 
@@ -254,7 +289,7 @@ def add_ledger_entry():
         debt = False
     print(f"name: {name}, user_id: {uid}")
     # Find the portfolio with the same name as the name and belongs to the current user
-    pid = Portfolio.query.filter_by(name=name, user_id=uid).first()
+    pid = Portfolio.query.filter_by(name=modelClass, user_id=uid).first()
     print(pid)
     # If no matching portfolio is found, flash an error message and redirect
     if not pid:
@@ -266,7 +301,7 @@ def add_ledger_entry():
                             debt=debt,
                             amount=amount,
                             freq=frequency,
-                            modelClass=name,
+                            modelClass=modelClass,
                             details=details,
                             begin=start_date,
                             end=end_date,

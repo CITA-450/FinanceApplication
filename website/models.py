@@ -36,7 +36,7 @@ class Ledger(db.Model): #Budget Ledger Lines
     
     id= db.Column(db.Integer,primary_key=True)
     timestamp= db.Column(db.DateTime(timezone=True), default=func.now()) #born on date
-    #name= db.Column(db.String(15),db.References("portfolio.name"))
+    name= db.Column(db.String(15),default=None)
     debt= db.Column(db.Boolean,default=True)
     amount= db.Column(db.Float(35),default=0.0)
     modelClass= db.Column(db.String(150),default=None)
