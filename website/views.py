@@ -363,6 +363,16 @@ def settings():
 @login_required
 def dashboard_admin():
     return render_template("dashboard_admin.html", user=current_user)
+@views.route("/dashboard_admin/", methods=["GET", "POST"])
+@login_required
+def enable_user():
+    pass
+    
+@views.route("/dashboard_admin/", methods=["GET", "POST"])
+@login_required
+def disable_user():
+    pass
+    
 #
 # ----------<END>------------------------------------------------------------------------------------#
 @public.route("/test/", methods=["GET", "POST"])
