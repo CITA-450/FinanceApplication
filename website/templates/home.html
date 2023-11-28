@@ -1,24 +1,59 @@
 
 {% extends "base_auth.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-  {% for note in user.notes %}
-  <li class="list-group-item">
-    {{user}}
-    {{ note.data }}
-    <button type="button" class="close" onClick="deleteNote({note,id})">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </li>
-  {% endfor %}
-</ul>
-<form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Add Note</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Dashboard</h1>
+    </div>
+    <button onclick="loadChartData('1')">Today</button>
+    <button onclick="loadChartData('7')">7 Day</button>
+    <button onclick="loadChartData('30')">30 Day</button>
+    <button onclick="loadChartData('60')">60 Day</button>
+    <button onclick="loadChartData('120')">120 Days</button>
+    <button onclick="loadChartData('364')">Year</button>
   </div>
-</form>
+</div>
+
+<div class="container">
+{{ pie_data }}  <!-- This will print the pie_data dictionary for debugging -->
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: ['Debit', 'Credit', 'Savings'],
+          datasets: [{
+              label: 'Transactions',
+              data: [{{ pie_data['debit'] }}, {{ pie_data['credit'] }}, {{ pie_data['savings'] }}],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(54, 162, 235, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(54, 162, 235, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false
+      }
+  });
+  </script>
+</div>
+<!-- Add more buttons as needed -->
+<script>
+function loadChartData(range) {
+    window.location.href = `/home?range=${range}`;
+}
+</script>
+<div>Debit:Credit:Savings - {{ ratio }}</div>
 {% endblock %}
 
