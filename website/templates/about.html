@@ -1,32 +1,133 @@
-{% extends "base_auth.html" %} {% block title %}About{% endblock %} {% block
-content %}
-<form method="POST">
-  <h2 align="center"></h2>
-  <h2 align="center">About Us</h2>
-  <h5 align="center">This is test about our app about text!</h5>
-  <h4 align="center">For support</h4>
+{% extends "base_auth.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<style>
+  body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin: 20px;
+    background-color: #f8f9fa; /* Add a subtle background color */
+  }
 
-  <div class="form-group">
-    <div class="form-group">
-      <label for="comment">Comment</label>
-      <input
-        type="comment"
-        class="form-control"
-        id="comment"
-        name="comment"
-        placeholder="Enter comments here"
-      />
-      <label for="email"></label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        name="email"
-        placeholder="Enter response email"
-      />
+  h1, h2, h3 {
+    font-family: 'Pacifico', cursive; /* Use Pacifico for headings */
+    color: gold; /* Heading color */
+  }
+
+  p {
+    margin-bottom: 15px;
+  }
+
+  .team-member {
+    margin-bottom: 30px;
+    padding: 20px; /* Add consistent padding */
+    background-color: #ffffff; /* White background for team member sections */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  }
+
+  .team-member h3 {
+    color: #1E90FF; /* Subheading color */
+  }
+
+  .team-member img {
+    max-width: 100%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  /* Adjust button styling */
+  .btn-primary {
+    background-color: gold;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+
+  /* Add more styles as needed */
+</style>
+  <body>
+    <h1>Welcome to Our Finance Application</h1>
+    <p>
+        Where financial empowerment meets simplicity. Our application is designed to revolutionize the way you manage your finances, offering intuitive tools and features that empower users to take control of their financial journey. From seamless budget tracking to insightful analytics, we provide a comprehensive suite of tools to help you achieve your financial goals. Our Finance Application ensures a hassle-free and secure experience with a user-friendly interface and robust security measures. Whether you're tracking expenses, planning for the future, or gaining insights into your spending patterns, our application is your trusted companion on the path to financial success. Join us on this journey toward financial well-being, where every transaction has the power of saving better.
+    </p>
+
+    <h2>Meet Our Team</h2>
+
+    <div class="team-member">
+        <h3>Charles Drexler: CEO</h3>
+        <p>
+            Charles is the driving force behind our Finance Application, bringing a wealth of experience in the finance industry. With a vision for making financial management accessible to all, Charles has led our team in developing intuitive tools that redefine the way users engage with their finances. His commitment to innovation and financial empowerment sets the tone for our entire organization.
+        </p>
     </div>
+
+    <div class="team-member">
+      <h3>Caleb Turner: Chief Technology Officer</h3>
+      <p>
+          As our CTO, Caleb is the technological mastermind responsible for the seamless functionality and security of our Finance Application. With a background in cutting-edge technology, Caleb ensures that our users have a reliable and secure platform to manage their financial data. His expertise in software development and commitment to staying ahead of industry trends drives the continuous improvement of our application.
+      </p>
   </div>
-  <br />
-  <button type="submit" class="btn btn-primary">Send</button>
-</form>
+
+  <div class="team-member">
+      <h3>Donnie Bowles: Head of Customer Experience</h3>
+      <p>
+          Donnie is the friendly face behind our commitment to excellent customer service. As Head of Customer Experience, he ensures that our users have a positive and stress-free interaction with our Finance Application. Donnie's dedication to customer satisfaction and problem-solving skills make him an invaluable asset to our team.
+      </p>
+  </div>
+
+  <div class="team-member">
+      <h3>Maryam Aifa: Financial Analyst</h3>
+      <p>
+          Maryam is our analytical powerhouse, bringing a keen eye for financial trends and insights. As a Financial Analyst, she plays a crucial role in refining our application's analytics features. Maryam's expertise in data analysis and her passion for helping users make informed financial decisions contribute to the robust analytical capabilities of our Finance Application.
+      </p>
+  </div>
+
+  <div class="team-member">
+      <h3>Ater Ater: UX/UI Designer</h3>
+      <p>
+          Ater is the creative force responsible for the visually appealing and user-friendly design of our Finance Application. As a UX/UI Designer, Ater combines aesthetics with functionality to create an engaging and intuitive user experience. His innovative designs enhance the overall usability of our application, making financial management an enjoyable experience for our users.
+      </p>
+  </div>
+    <!-- Other team members go here -->
+
+    <h2 align="center">Contact Us</h2>
+    <h5 align="center">Share your thoughts with us! This is a test about our app.</h5>
+    <h4 align="center">For support, please use the form below.</h4>
+
+    <form method="POST" class="container">
+      <div class="form-group">
+        <label for="comment">Comment</label>
+        <input
+          type="text"
+          class="form-control"
+          id="comment"
+          name="comment"
+          placeholder="Enter your comments here"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter your email address"
+        />
+      </div>
+
+      <br />
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </body>
 {% endblock %}
