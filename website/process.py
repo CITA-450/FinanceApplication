@@ -2,9 +2,17 @@
 #----------<PROCESS.PY>------------------------------------------------------------------------------------#
 #----------<IMPORTS>------------------------------------------------------------------------------------#
 from .models import  Ledger, Portfolio, User
-from datetime import datetime
+from flask_login import current_user
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash#, check_password_hash
+from colorama import init, Fore, Style, Back
+import timeit
+
+# Initialize Colorama
+init(autoreset=True)
 #----------<FUNCTIONS>------------------------------------------------------------------------------------#
+global asciiimage
+asciiimage = r'.\website\static\\ascii_art_FAlogo.txt'
 FREQUENCY_TO_DAYS = {
     'single': 1,       # Single entry, no conversion needed
     'daily': 1,        # Daily, already per day
@@ -14,21 +22,32 @@ FREQUENCY_TO_DAYS = {
     'quarterly': 91,   # Approximation
     'yearly': 365      # Common year
 }
-#PRINT_PROCESS
-def printProccess(*args):
-    
-    for arg in args:
-        print(f'Process= {arg}')
 
-#PRINT_RETURN
+# PRINT_PROCESS
+def printProccess(*args):
+    for arg in args:
+        print(Fore.GREEN + 'Process= ' + Fore.CYAN + str(arg))
+
+# PRINT_CRITICAL
+def printCritical(*args):
+    for arg in args:
+        print(Fore.RED + 'Critical= ' + Fore.YELLOW + str(arg))
+
+# PRINT_WARNING
+def printWarning(*args):
+    for arg in args:
+        print(Fore.YELLOW + 'Warning= ' + Fore.LIGHTYELLOW_EX + str(arg))
+
+# PRINT_RETURN
 def printReturn(*args, **kwargs):
-    print(f'Return= <{args,kwargs}>')
-            
+    print(Fore.GREEN + 'Return= ' + Fore.CYAN+'<' + str(args) + ',' + str(kwargs) + '>')
+
 #SHA256
 def sha256(i):
     sha=generate_password_hash(i)
-    printProccess('sha256')
-    printReturn(sha,process='sha256')
+    printProccess('<sha256>')
+    short = sha[:10] + '...'
+    printReturn(process='sha256',return_value=short)
     return sha
 
 # Default Protfolio
@@ -38,11 +57,11 @@ def defaultPorfolio(user):
     uid = user.id #get user id to validate database prerequisites
     
     pid = Portfolio.query.filter_by(user_id=uid).first()
-    print(f"<User= {uid}>")
-    print(f"<Ledgers= {pid}>")
+    printReturn('<debug>',uid,process='defaultPorfolio',return_value=pid)
+ 
     #if no portfolio ledgers exist, create the default set
     if pid == None:
-       
+
             Bill =  'Bills'
             Exp = 'Expenses'
             Loan = 'Loans'
@@ -64,9 +83,8 @@ def defaultPorfolio(user):
                     db.session.commit()                    
                     db.session.add(new_portfolio)
                 except Exception as e :
-                    print("Error creating portfolio")
-                    print(e)    
-                    
+                    printWarning("Error creating portfolio")
+                    printWarning(e)                    
                     pass
 # Frequency Converter (actual to per Day)
 def freqConverter(amount,freq):
@@ -76,8 +94,6 @@ def freqConverter(amount,freq):
             return amount
 # Define a function to generate test accounts
 
-from flask_login import current_user
-from datetime import datetime
 
 def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     """
@@ -108,8 +124,7 @@ def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     for entry in ledger_entries:
         num_days = (end_date - start_date).days + 1
         total_amount = entry.amount * num_days  # Multiplying the amount by the number of days
-        printProccess('query_and_process_ledger_entries')
-        printReturn(process='query_and_process_ledger_entries',amount=entry.amount,days=num_days, return_value=total_amount)
+        printReturn('<debug>',process='query_and_process_ledger_entries',amount=entry.amount,days=num_days, return_value=total_amount)
         # Categorizing the entries
         if entry.debt:
             categorized_totals['debit'] += total_amount
@@ -161,9 +176,136 @@ def calculate_daily_cumulative_amounts(transactions, start_date, end_date):
     printReturn(process='calculate_daily_cumulative_amounts',return_value=daily_totals)
     return daily_totals
 
-def generate_test_accounts():
+# Function to print ASCII art from a saved file
+def print_ascii_from_file(file_path):
+    from colorama import init, Fore, Style
+    init(autoreset=True)  # Initializes colorama to wrap stdout/stderr with color codes
+    with open(file_path, 'r') as file:
+        # Read the contents of the file into a string
+        content = file.read()
+        # Split the content by newlines to get each line
+        lines = content.split("\n")
+        for line in lines:
+            colored_line = ''
+            for char in line:
+                if char == '@':
+                    colored_line += Fore.BLACK + char
+                elif char == '#':
+                    colored_line += Fore.YELLOW + char
+                elif char == 'S':
+                    colored_line += Fore.YELLOW + char
+                elif char == '%':
+                    colored_line += Fore.BLUE + char
+                elif char == '?':
+                    colored_line += Fore.BLUE + char
+                elif char == '*':
+                    colored_line += Fore.CYAN + char
+                elif char == '+':
+                    colored_line += Fore.WHITE + char
+                elif char == ';':
+                    colored_line += Fore.LIGHTBLACK_EX + char
+                elif char == ':':
+                    colored_line += Fore.LIGHTRED_EX + char
+                elif char == ',':
+                    colored_line += Fore.LIGHTGREEN_EX + char
+                elif char == '.':
+                    colored_line += Fore.LIGHTYELLOW_EX + char
+                # ... add more conditions for other characters and colors if needed
+                else:
+                    colored_line += char  # Default color
+            print(colored_line)
+
+def deleteDB():
+    import timeit
+    from datetime import datetime
     from . import db
-    from datetime import datetime, timedelta
+    printProccess('<deleteDB>')
+    init(autoreset=True)
+    
+ 
+    # ASCII Art Representation of "DELETING DATABASE"
+    ascii_art = """
+        DDDD   EEEEE L     EEEEE TTTTT I  N  N GGGG
+        D   D  E     L     E       T   I  NN  N G   
+        D   D  EEEE  L     EEEE    T   I  N N N G  GG
+        D   D  E     L     E       T   I  N  NN G   G
+        DDDD   EEEEE LLLLL EEEEE   T   I  N   N GGGG 
+
+        DDDD    A   TTTTT  A   BBBB   A   SSSS EEEEE
+        D   D  A A    T   A A  B   B A A  S    E    
+        D   D AAAAA   T  AAAAA BBBB AAAAA  SSS EEEE 
+        D   D A   A   T  A   A B   B A   A    S E   
+        DDDD  A   A   T  A   A BBBB  A   A SSSS EEEEE
+        """
+    sadFace = """
+        :(
+        """
+    def rainbowSadFace():
+        print(Fore.MAGENTA + sadFace)
+        print(Fore.LIGHTMAGENTA_EX + sadFace)
+        print(Fore.LIGHTRED_EX + sadFace)
+        print(Fore.LIGHTYELLOW_EX + sadFace)
+        print(Fore.LIGHTGREEN_EX + sadFace)
+        print(Fore.LIGHTCYAN_EX + sadFace)
+        print(Fore.LIGHTBLUE_EX + sadFace)
+        print(Fore.LIGHTBLACK_EX + sadFace)
+        print(Fore.LIGHTWHITE_EX + sadFace)
+        print('...')
+        
+    # Function to print the ASCII art with specific color
+    def print_colored_ascii(ascii_art):
+        colored_text = Fore.RED + Back.CYAN + ascii_art + Fore.RESET + Back.RESET
+        print(colored_text)
+ 
+        # Function to delete the database and print the ASCII art in color 
+
+    # Function to delete the database and print the ASCII art in color
+    def delete():
+        def drop_db():
+            # This function will contain the code for dropping the database
+            db.drop_all()
+            db.create_all()  # Recreate the database after dropping
+
+        # Print the colored ASCII art
+        print_colored_ascii(ascii_art)
+
+        # Measure the execution time of dropping the database
+        start_time = datetime.now()
+        execution_time = timeit.timeit(drop_db, number=1)
+        end_time = datetime.now()
+
+        # Calculate the time difference
+        time_diff = end_time - start_time
+
+        # Return the execution time and the time difference as strings
+        return f"Execution time: {execution_time} seconds", f"Time taken: {time_diff}"
+
+    # Execute the function and measure the execution time
+    d1 = delete()
+    d2 = delete()
+
+    # Assign the execution time to variables
+    time1 = d1[0]
+    time2 = d2[0]
+
+    timedelete1 = d1[1]
+    timedelete2 = d2[1]
+
+
+    # Print the colored ASCII art
+    rainbowSadFace()
+    rainbowSadFace()
+    # Print the execution time
+    printReturn('First',timedelete1,time1) 
+    printReturn('Second',timedelete2,time2)
+    printCritical('You have deleted the database! -  Please restart the application.')
+    
+
+   
+def generate_test_accounts():
+    
+    from . import db
+    
     import random
     # Loop 10 times to create 10 accounts
     for i in range(1, 11):
@@ -207,7 +349,8 @@ def generate_test_accounts():
                 freq='monthly' if name in ['Bills', 'Loans', 'Subscriptions', 'Savings', 'Salary'] else 'single'
                 amount = freqConverter(random.randint(100, 1000), freq)
                 portInstance = Portfolio.query.filter_by(name=name,user_id=user.id).first()
-                print(portInstance.id)
+                # hashed for debugging
+                #print(portInstance.id)
                 
                 ledger = Ledger(port_id=portInstance.id,
                                 user_id=user.id,

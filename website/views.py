@@ -66,7 +66,6 @@ def home():
     p.printProccess(chartData)
     return render_template("home.html", user=current_user, pie_data=chartData, ratio=ratio, range=range_days)
 
-    #return render_template("home.html", user=current_user, pie_data=categorized_totals)
 @views.route("/notes/", methods=["GET", "POST"])
 @login_required
 def notes():
@@ -237,7 +236,7 @@ def delete_note():
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
-    print(jsonify({}))
+    flash(jsonify({}))
 
     return jsonify({})
 
@@ -287,10 +286,9 @@ def add_ledger_entry():
     debt = True
     if name == 'Salary':
         debt = False
-    print(f"name: {name}, user_id: {uid}")
     # Find the portfolio with the same name as the name and belongs to the current user
     pid = Portfolio.query.filter_by(name=modelClass, user_id=uid).first()
-    print(pid)
+  
     # If no matching portfolio is found, flash an error message and redirect
     if not pid:
         flash('No portfolio found with the given name.', 'error')
@@ -326,16 +324,13 @@ def open_ledger():
     print(portfolio)
     if portfolio:
         if portfolio.user_id == current_user.id:
-            print(jsonify({}))
+            #print(jsonify({}))
             #return redirect(url_for('views.ledger',pid=portfolioId,user=current_user))
-    return jsonify({})
-    
+            return jsonify({})
+    else:
+        flash('No Portfolio Found')
+        return jsonify({})
             
-  
-           
-            
-#
-#
 # ----------<PUBLIC_PAGES>------------------------------------------------------------------------------------#
 # SUPPORT
 @public.route("/support/", methods=["GET", "POST"])
@@ -346,8 +341,9 @@ def support():
 # ABOUT
 @public.route("/about/", methods=["GET", "POST"])
 def about():
-    data = request.form
-    print(data)
+    
+    #data = request.form
+    #print(data)
     return render_template("about.html", user=current_user)
 #
 #
@@ -372,11 +368,11 @@ def enable_user():
 @login_required
 def disable_user():
     pass
+# ----------<END>------------------------------------------------------------------------------------#
     
 #
-# ----------<END>------------------------------------------------------------------------------------#
 @public.route("/test/", methods=["GET", "POST"])
 def test():
     data = request.form
-    print(data)
+    #print(data)
     return render_template("test.html", user=current_user)
