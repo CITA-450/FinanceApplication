@@ -95,13 +95,15 @@ def freqConverter(amount,freq):
 # Define a function to generate test accounts
 
 
+from datetime import datetime
+
 def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     """
     Query the Ledger table and process entries for the current user within a given date range.
 
     Args:
-    start_date (str): Start date for the range in 'YYYY/MM/DD' format.
-    end_date (str): End date for the range in 'YYYY/MM/DD' format.
+    start_date_str (str): Start date for the range in 'YYYY-MM-DD' format.
+    end_date_str (str): End date for the range in 'YYYY-MM-DD' format.
     session: The database session for executing the query.
     Ledger: The SQLAlchemy table object for the ledger.
 
@@ -113,19 +115,26 @@ def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     if isinstance(end_date, str):
         end_date = datetime.strptime(end_date, f'%Y/%m/%d').date()
 
-    # Querying the ledger table for transactions of the current user within the date range
+    # Querying the ledger table for transactions within the date range
     ledger_entries = session.query(Ledger).filter(
-        Ledger.begin <= start_date,
-        Ledger.end >= end_date,
-        Ledger.user_id == current_user.id  # Filter by current user's ID
+        Ledger.end >= start_date,
+        Ledger.begin <= end_date,
+        Ledger.user_id == current_user.id  # Assuming current_user is defined in your context
     ).all()
 
-    categorized_totals = {'debit': 0, 'savings': 0, 'credit': 0}
+    categorized_totals = {'debit': 0, 'credit': 0, 'savings': 0}
+    
     for entry in ledger_entries:
-        num_days = (end_date - start_date).days + 1
-        total_amount = entry.amount * num_days  # Multiplying the amount by the number of days
+        # Calculate the overlap days between the ledger entry and the specified date range
+        overlap_start = max(entry.begin, start_date)
+        overlap_end = min(entry.end, end_date)
+        num_days = (overlap_end - overlap_start).days + 1
+
+        # Calculate the total amount for the number of overlap days
+        total_amount = entry.amount * num_days
         printReturn('<debug>',process='query_and_process_ledger_entries',amount=entry.amount,days=num_days, return_value=total_amount)
-        # Categorizing the entries
+
+        # Categorize and accumulate the entries
         if entry.debt:
             categorized_totals['debit'] += total_amount
         else:
@@ -135,6 +144,7 @@ def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     categorized_totals['savings'] = max(categorized_totals['credit'] - categorized_totals['debit'], 0)
 
     return categorized_totals
+
 # Note: Ensure this function is called within an application context where `current_user` is available.
 
 
