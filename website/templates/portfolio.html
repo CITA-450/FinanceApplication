@@ -1,25 +1,76 @@
 {% extends "base_auth.html" %}
 Portfolio
 {% block content %}
-<div class="container mt-4">
-  <h2>My Portfolio</h2>
-  <div class="btn-group" role="group" aria-label="Ledger buttons">
-    <!-- Ledger buttons -->
-    {% for portfolio in user.portfolio %}
-    <a href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}" class="btn btn-secondary">{{portfolio.name}}-</a>
-    {% endfor %}
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+      <div class="navbar-nav">
+  
+      <a class="nav-item nav-link" href="/home">DashBoard</a>
+      <a class="navbar-brand nav-tabs "  href="/portfolio"> Portfolio</a>
+      <a class="nav-item nav-link" href="/ledger">Ledger</a>
+      <a class="nav-item nav-link" href="/notes">Notes</a>
+      <a class="nav-item nav-link" href="/logout">Logout</a>
+    </div>
+    </div>
+  </nav>
+</div>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="display-3">Portfolio</h1>
+      <p class="lead">This your portfolio it keeps your cashflow separated.</p>
+      <hr class="my-4">
+      </p>
+    </div>
   </div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Select Ledger</a>
+    <div class="container mt-4">
+    <hr>
+    
+    </div>
+      <div class="btn-group" role="group" aria-label="Ledger buttons">
+        <!-- Ledger buttons -->
+        {% for portfolio in user.portfolio %}
+        <a class="btn btn-primary" href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}" >{{portfolio.name}}-</a>
+        {% endfor %}
+      </div>
+    
+      <hr>
+    
+      <!-- Recent Activity Log -->
+      
+      
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      
+      <div align="center" class="navbar-nav">
+      <a class="navbar-brand" href="#">Recent Activity</a>
+        <ul class="list-group">
+          {% for entry in recent_activities %}
+          <li class="list-group-item">
+            {{ entry.name}} -{{entry.details}} - $ {{ "{:.2f}".format(entry.amount) }}/day - {{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    
+    
+    </nav>
+        
+ 
 
-  <hr>
 
-  <!-- Recent Activity Log -->
-  <h4>Recent Activity</h4>
-  <ul class="list-group">
-    {% for entry in recent_activities %}
-    <li class="list-group-item">
-      {{ entry.description }} - {{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}
-    </li>
-    {% endfor %}
-  </ul>
 </div>
 {% endblock %}
+
+    
+
+
+
+
+
+
+

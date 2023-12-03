@@ -108,7 +108,7 @@ def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
     Ledger: The SQLAlchemy table object for the ledger.
 
     Returns:
-    dict: A dictionary with categorized totals ('debit', 'credit', 'savings').
+    dict: A dictionary with categorized totals ('debit', 'credit', 'savings','realized_savings').
     """
     if isinstance(start_date, str):
         start_date = datetime.strptime(start_date, f'%Y/%m/%d').date()
@@ -121,28 +121,23 @@ def query_and_process_ledger_entries(start_date, end_date, session, Ledger):
         Ledger.begin <= end_date,
         Ledger.user_id == current_user.id  # Assuming current_user is defined in your context
     ).all()
-
-    categorized_totals = {'debit': 0, 'credit': 0, 'savings': 0}
+    categorized_totals = {'debit': 0, 'credit': 0, 'savings': 0, 'realized_savings': 0}
     
     for entry in ledger_entries:
-        # Calculate the overlap days between the ledger entry and the specified date range
         overlap_start = max(entry.begin, start_date)
         overlap_end = min(entry.end, end_date)
         num_days = (overlap_end - overlap_start).days + 1
-
-        # Calculate the total amount for the number of overlap days
         total_amount = entry.amount * num_days
-        printReturn('<debug>',process='query_and_process_ledger_entries',amount=entry.amount,days=num_days, return_value=total_amount)
 
-        # Categorize and accumulate the entries
-        if entry.debt:
+        if entry.modelClass == 'Savings':
+            categorized_totals['realized_savings'] += total_amount
+        elif entry.debt:
             categorized_totals['debit'] += total_amount
         else:
             categorized_totals['credit'] += total_amount
 
-    # Calculate 'savings' as credit minus debit
-    categorized_totals['savings'] = max(categorized_totals['credit'] - categorized_totals['debit'], 0)
-
+    categorized_totals['savings'] = max(categorized_totals['credit'] - categorized_totals['debit'] - categorized_totals['realized_savings'], 0)
+    printReturn(process='query_and_process_ledger_entries',return_value=categorized_totals)
     return categorized_totals
 
 # Note: Ensure this function is called within an application context where `current_user` is available.
@@ -357,7 +352,7 @@ def generate_test_accounts():
 
             for ledger_name in ledger_names:
                 freq='monthly' if name in ['Bills', 'Loans', 'Subscriptions', 'Savings', 'Salary'] else 'single'
-                amount = freqConverter(random.randint(100, 1000), freq)
+                amount = freqConverter(random.randint(1, 20), freq)
                 portInstance = Portfolio.query.filter_by(name=name,user_id=user.id).first()
                 # hashed for debugging
                 #print(portInstance.id)
@@ -366,7 +361,7 @@ def generate_test_accounts():
                                 user_id=user.id,
                                 begin=datetime.now() - timedelta(days=random.randint(1, 365)), 
                                 end=datetime.now() + timedelta(days=random.randint(1, 365)),
-                                amount=amount,
+                                amount=300 if name in ['Salary'] else amount,
                                 details=f'{username}: {ledger_name}',
                                 apr=5.0 if name in ['Loans'] else 0.0,
                                 modelClass = name,

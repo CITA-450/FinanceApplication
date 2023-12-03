@@ -1,44 +1,92 @@
 
-{% extends "base_auth.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<div class="container">
+{% extends "base_auth.html" %} {% block title %}Home{% endblock %}
+{% block content
+  %}
+  <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+      <div class="navbar-nav">
+  
+      <a class="navbar-brand nav-tabs "  href="/home">DashBoard</a>
+      <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
+      <a class="nav-item nav-link" href="/ledger">Ledger</a>
+      <a class="nav-item nav-link" href="/notes">Notes</a>
+      <a class="nav-item nav-link" href="/logout">Logout</a>
+    </div>
+    </div>
+  </nav>
+  </div>
+  <hr>
+  <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h1>Dashboard</h1>
+      <h1 class="display-3">Cash Flow Analyzer</h1>
+      <p class="lead">This is a simple cash flow analyzer that will help you understand your cash flow.</p>
+      <hr class="my-4">
+      <p>It uses the data from your ledger to calculate your cash flow.</p>
+      <p class="lead">
+
+      </p>
     </div>
-    <button onclick="loadChartData('1')">Today</button>
-    <button onclick="loadChartData('7')">7 Day</button>
-    <button onclick="loadChartData('30')">30 Day</button>
-    <button onclick="loadChartData('60')">60 Day</button>
-    <button onclick="loadChartData('120')">120 Days</button>
-    <button onclick="loadChartData('364')">Year</button>
   </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Finance Application</a>
+ 
+
+  <div class="btn-group" role="group" aria-label="Range buttons">
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('1')">1 Day</button>
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('7')">7 Day</button>
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('30')">30 Day</button>
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('60')">60 Day</button>
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('120')">120 Days</button>
+    <button type="submit" class="btn btn-primary" onclick="loadChartData('364')">Year</button>
 </div>
+</nav>
 
-<div class="container">
-{{ pie_data }}  <!-- This will print the pie_data dictionary for debugging -->
 
-<canvas id="myChart"></canvas>
-<script>
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Analyzer
+    Range- {{ range }}
+  </a>
+  <div align="center" class="navbar-nav" >
+
+
+    
+    <a class="nav-item nav-link" color = "lightgray"> Debit {{ total_debit }}
+    <a class="nav-item nav-link"color = "lightgray"> Credit {{ total_credit }}
+    <a class="nav-item nav-link"color = "lightgray"> Potential Savings {{ total_savings }}
+    <a class="nav-item nav-link"color = "lightgray"> Realized Savings {{ realized_savings }}
+
+  </div>
+
+    
+    <a class="nav-item nav-link"> 
+
+ <!--{{ pie_data }}  This will print the pie_data dictionary for debugging -->
+
+  <canvas id="myChart"></canvas>
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
       type: 'pie',
       data: {
-          labels: ['Debit', 'Credit', 'Savings'],
+          labels: ['Debit', 'Credit', 'Potential Savings', 'Realized Savings'],
           datasets: [{
               label: 'Transactions',
-              data: [{{ pie_data['debit'] }}, {{ pie_data['credit'] }}, {{ pie_data['savings'] }}],
+              data: [{{ pie_data['debit'] }}, {{ pie_data['credit'] }}, {{ pie_data['savings'] }}, {{ pie_data['realized_savings'] }}],
               backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)'
+                  'rgba(255, 99, 132, 0.2)', // Debit
+                  'rgba(75, 192, 192, 0.2)',  // Credit
+                  'rgba(54, 162, 235, 0.2)',  // Savings
+                  'rgba(128, 0, 128, 0.2)'    // Realized Savings (Purple)
               ],
               borderColor: [
-                  'rgba(255, 99, 132, 1)',
+                  'rgba(255, 99, 132, 1)', 
                   'rgba(75, 192, 192, 1)',
-                  'rgba(54, 162, 235, 1)'
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(128, 0, 128, 1)'      // Border color for Realized Savings
               ],
-              borderWidth: 1
+              borderWidth: 2
           }]
       },
       options: {
@@ -46,14 +94,34 @@
           maintainAspectRatio: false
       }
   });
-  </script>
-</div>
-<!-- Add more buttons as needed -->
-<script>
-function loadChartData(range) {
-    window.location.href = `/home?range=${range}`;
-}
 </script>
-<div>Debit:Credit:Savings - {{ ratio }}</div>
+</nav>
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link"> Ratio - C:D:S - {{ ratio }}<br>
+      <a class="nav-item nav-link"> Range- {{ range }}
+      <a class="nav-item nav-link"> Start Date - {{ start_date }}
+      <a class="nav-item nav-link"> End Date - {{ end_date }}
+
+    </div>
+  <!-- Add more buttons as needed -->
+
+    <script>
+    function loadChartData(range) {
+        window.location.href = `/home?range=${range}`;}
+    </script>
+
+</nav>
+</div>
+
+
+
+
+
+
+
+
 {% endblock %}
 

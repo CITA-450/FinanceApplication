@@ -1,24 +1,68 @@
 
 {% extends "base_auth.html" %} {% block title %}Notes{% endblock %} {% block content
   %}
-  <h1 align="center">Notes</h1>
-  <ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">
-      {{user}}
-      {{ note.data }}
-      <button type="button" class="close" onClick="deleteNote({note,id})">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </li>
-    {% endfor %}
-  </ul>
-  <form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <br />
-    <div align="center">
-      <button type="submit" class="btn btn-primary">Add Note</button>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="navbar-nav">
+        <div class="navbar-nav">
+      
+          <a class="nav-item nav-link" href="/home">DashBoard</a>
+          <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
+          <a class="nav-item nav-link" href="/ledger">Ledger</a>
+          <a class="navbar-brand nav-tabs "  href="/notes">Notes</a>
+          <a class="nav-item nav-link" href="/logout">Logout</a>
+        </div>
+    </nav>
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="display-3">Notes</h1>
+        <p class="lead">This is a simple notepad to keep record or notes.
+          
+          
+        </p>
+        <hr class="my-4">
+        <p>
+          To add a note, type in the text box and click the 'Add Note' button.</p>
+        <p>  You can delete a note by clicking the 'X' button on the right side of the note
+        </p>
+        <p class="lead">
+  
+        </p>
+        <hr class="my-4">
+      </div>
     </div>
-  </form>
+  </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">{{current_user.username}}'s Notes</a>
+      <div class="container mt-4">
+      <hr>
+      <ul class="list-group list-group-flush" id="notes">
+        {% for note in user.notes %}
+        <li class=" list-nav-item">
+          <p>{{note.id}} |
+            {{ note.data }}
+            <button type="button" class="close" onClick="deleteNote( {{ note.id }} )">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </p>
+        </li>
+        <hr>
+        {% endfor %} 
+      </ul>
+      </nav>
+    </div>
+    
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <form method="POST">
+        <textarea name="note" id="note" class=" form-control"></textarea>
+        <br />
+        <div align="center">
+          <button type="submit" class="btn btn-primary">Add Note</button>
+        </div>
+      </form>
+
+    </nav>
+  </div>
+  
   {% endblock %}
   

@@ -61,11 +61,21 @@ def home():
     # Fetch and process the data for the chart
     chartData = p.query_and_process_ledger_entries(start_date_str, end_date_str, session, ledger)
     # Calculate ratio
-    total = chartData['debit'] + chartData['credit'] + chartData['savings']
-    ratio = f"{chartData['debit']/total:.2f}:{chartData['credit']/total:.2f}:{chartData['savings']/total:.2f}" if total > 0 else "N/A"
+    total = chartData['debit'] + chartData['credit'] + chartData['savings'] + chartData['realized_savings']
+    ratio = f"{chartData['credit']/total:.2f} : {chartData['debit']/total:.2f} : {chartData['realized_savings']/total:.2f}" if total > 0 else "N/A"
     p.printProccess(chartData)
-    return render_template("home.html", user=current_user, pie_data=chartData, ratio=ratio, range=range_days)
-
+    return render_template("home.html", 
+                           user=current_user, 
+                           pie_data=chartData, 
+                           ratio=ratio, 
+                           range=range_days, 
+                           start_date=start_date_str, 
+                           end_date=end_date_str, 
+                           total_debit = f"${chartData['debit']:.2f}", 
+                           total_credit = f"${chartData['credit']:.2f}", 
+                           total_savings = f"${chartData['savings']:.2f}", 
+                           total_transactions = f"${total:.2f}",
+                           realized_savings = f"${chartData['realized_savings']:.2f}")
 @views.route("/notes/", methods=["GET", "POST"])
 @login_required
 def notes():
@@ -137,7 +147,7 @@ def welcome():
             flash("Email must be more than 4 characters!", category="error")
             return render_template("welcome.html", user=current_user)
 
-    flash(f"We hope you choose our app! {userDetails}")
+    flash(f"We hope you choose our app!", category="success")
     
     return render_template("welcome.html", user=current_user)
 #
@@ -284,7 +294,7 @@ def add_ledger_entry():
     apr = 0.0
     uid = current_user.id #get user id to validate database prerequisites
     debt = True
-    if name == 'Salary':
+    if modelClass == 'Salary':
         debt = False
     # Find the portfolio with the same name as the name and belongs to the current user
     pid = Portfolio.query.filter_by(name=modelClass, user_id=uid).first()
