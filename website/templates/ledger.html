@@ -1,8 +1,40 @@
+<style>
+.form-control, .form-control:focus, .input-group-addon {
+  maxwidth: 20%;
+  padding: 5px 10px;
+
+}
+
+.form-row{
+  padding: 5px 10px;
+
+  maxwidth: 20%;
+
+}
+port-card{
+  padding: 5px 10px;
+
+  maxwidth: 20%;
+
+}
+.blue-card{
+  padding: 5px 10px;
+
+  maxwidth: 20%;
+
+}
+.ledger-entries{
+  padding: 5px 10px;
+
+  maxwidth: 20%;
+
+}
+</style>
 {% extends "base_auth.html" %}
 Ledger
 {% block content %}
 <div class="container">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark  ">
     <div class="navbar-nav">
       <div class="navbar-nav">
   
@@ -16,6 +48,7 @@ Ledger
   </nav>
 </div>
 <hr>
+<div class= "container col-md-4 col-md-offset-4 blue-card">
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -30,7 +63,7 @@ Ledger
   <div class="btn-group" role="group" aria-label="Ledger buttons">
     <!-- Ledger buttons -->
       {% for portfolio in user.portfolio %}
-      <a href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}" class="btn btn-primary">{{portfolio.name}}-</a>
+      <button type="submit" class="btn btn-primary" onclick= 'location.href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}"'>{{portfolio.name}}</button>
       {% endfor %}
   
   </div>
@@ -39,11 +72,11 @@ Ledger
 <hr>
 <h1 class="display-6">Ledger Entries</h1>
   <p>Use the form below to add a new ledger entry.</p>
-<form method="POST" action="{{ url_for('views.add_ledger_entry', default_ledger=default_ledger) }}">
-  <div class="form-row">
+<form class = "container col-md-4 col-md-offset-4 port-card bg-dark" method="POST" action="{{ url_for('views.add_ledger_entry', default_ledger=default_ledger) }}">
+  <div class="form-row blue-black">
     <div class="form-group col-md-6">
       <label for="ledger">Select Ledger:</label>
-      <select class="form-control" id="class" name="class" required>
+      <select class="form-control" maxwidth=20% id="class" name="class" required>
         <option value="{{ request.args.get('default_ledger') }}">--{{ request.args.get('default_ledger') }}--</option>
 
         <option value="Bills">Bills</option>
@@ -60,7 +93,7 @@ Ledger
           <!-- Add other ledger options here -->
       <div class="form-group col-md-6">
         <label for="frequency">Frequency:</label>
-        <select class="form-control" id="frequency" name="frequency" required>
+        <select class="form-control " maxwidth=20% id="frequency" name="frequency" required>
           <option value="">--Select Frequency--</option>
           <option value="single">Single</option>
           <option value="daily">Daily</option>
@@ -102,14 +135,23 @@ Ledger
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+      <hr>
       </div>
-      __________________________________________________________________________________________________
+      
+      <hr>
+      
         <div class="ledger-entries">
+
         <h2>Ledger:  {{ request.args.get('default_ledger') }}</h2>
+
         <ul class="list-group list-group-flush" id="ledger">
+
           {% for ledger in user.ledger %}
+
             {% if ledger.portfolio.name == request.args.get('default_ledger')  %}
+
               <li class="list-group-item">
+
                 <strong>Class:</strong> {{ ledger.portfolio.name }}<br>
                 <strong>Name:</strong> {{ ledger.name }}<br>
                 <strong>Amount(Per Day):</strong> ${{ "{:.2f}".format(ledger.amount) }}<br>
@@ -122,13 +164,22 @@ Ledger
                   <button type="submit" class="close" aria-label="Delete" style="background: none; border: none; padding: 0; color: #dc3545;">
                     <span aria-hidden="true">&times;</span>
                   </button>
+
                 </form>
+
             </li>
+
             {% endif %}
           {% endfor %}
+
         </ul>
+
         </div>
+      </div>
+        
+
         <hr>
+
 
         {% endblock %}
     <!-- method="POST" action="{{ url_for('views.update_ledger_entry', id=ledger.id) }}"-->

@@ -1,9 +1,11 @@
 {% extends "base_auth.html" %} {% block title %}Calculator{% endblock %} {% block content
   %}
-  <form method="POST">
+  <hr>
+
+  <form class= "container   blue-card" method="POST">
     <h1>Loan Calculator</h1>
-    <div class="form-group">
-      <label for="email">Loan Total</label>
+    <div class="form-group ">
+      <label for="total">Loan Total</label>
       <input
         type="loan"
         class="form-control"
@@ -13,7 +15,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="password">APR</label>
+      <label for="apr">APR</label>
       <input
         type="APR"
         class="form-control"
@@ -22,7 +24,28 @@
         placeholder="Enter APR"
       />
     </div>
+    <div class="form-group">
+      <label for="term">Term</label>
+      <input
+        type="term"
+        class="form-control"
+        id="term"
+        name="term"
+        placeholder="Enter term"
+      />
+    </div>
+
     <br />
     <button type="submit" class="btn btn-primary">Calculate</button>
+    <hr>
+    <div class= "container port-card">
+      <h3>Monthly Payment: {{ monthly_payment }}</h3>
+      <h3>Total Interest: {{ total_interest }}</h3>
+      <h3>Total Cost: {{ total_cost }}</h3>
+      
+      
+    </div>
   </form>
+    
+<hr>  
   {% endblock %}

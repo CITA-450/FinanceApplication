@@ -1,5 +1,12 @@
 {% extends "base_auth.html" %} {% block title %}Login{% endblock %} {% block
 content %}
+<hr>
+{% if error %}
+<div class="alert alert-danger" role="alert">
+  {{ error }}
+</div>
+{% endif %}
+<div class= "container col-md-4 col-md-offset-4 blue-card">
 <form method="POST">
   <h3 align="center">Login</h3>
   <div class="form-group">
@@ -25,4 +32,7 @@ content %}
   <br />
   <button type="submit" class="btn btn-primary">Login</button>
 </form>
+</div>
+<hr>
+<p align="center">Don't have an account? <a href="/sign-up">Sign Up!</a></p>
 {% endblock %}

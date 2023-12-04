@@ -15,7 +15,9 @@ Portfolio
     </div>
   </nav>
 </div>
+
 <hr>
+<div class= "container col-md-4 col-md-offset-4 blue-card">
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -27,43 +29,34 @@ Portfolio
   </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Select Ledger</a>
-    <div class="container mt-4">
-    <hr>
-    
+    <!-- Ledger buttons -->
+    <div class="btn-group" role="group" aria-label="Ledger buttons">
+    {% for portfolio in user.portfolio %}
+    <button type="submit" class="btn btn-primary" onclick= 'location.href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}"'>{{portfolio.name}}</button>
+    {% endfor %}
     </div>
-      <div class="btn-group" role="group" aria-label="Ledger buttons">
-        <!-- Ledger buttons -->
-        {% for portfolio in user.portfolio %}
-        <a class="btn btn-primary" href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}" >{{portfolio.name}}-</a>
-        {% endfor %}
-      </div>
-    
-      <hr>
+
+    </nav>
+      
+    <hr>
     
       <!-- Recent Activity Log -->
       
-      
-    </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      
-      <div align="center" class="navbar-nav">
-      <a class="navbar-brand" href="#">Recent Activity</a>
-        <ul class="list-group">
+      <a class="navbar-brand " href="#">Recent Activity</a>
+      <div class = "container  ">
+        <ul class="list-group blue-card">
           {% for entry in recent_activities %}
-          <li class="list-group-item">
+          <li class="list-group-item port-card">
             {{ entry.name}} -{{entry.details}} - $ {{ "{:.2f}".format(entry.amount) }}/day - {{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}
           </li>
           {% endfor %}
         </ul>
       </div>
-    
-    
     </nav>
-        
- 
-
-
 </div>
+</div>
+<hr>
 {% endblock %}
 
     

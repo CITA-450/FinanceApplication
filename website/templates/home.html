@@ -17,6 +17,8 @@
   </nav>
   </div>
   <hr>
+  
+<div class= "container col-md-4 col-md-offset-4 blue-card">
   <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -28,11 +30,12 @@
 
       </p>
     </div>
-  </div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
   <a class="navbar-brand" href="#">Finance Application</a>
  
-
+  <hr>
+  <hr>
   <div class="btn-group" role="group" aria-label="Range buttons">
     <button type="submit" class="btn btn-primary" onclick="loadChartData('1')">1 Day</button>
     <button type="submit" class="btn btn-primary" onclick="loadChartData('7')">7 Day</button>
@@ -44,26 +47,14 @@
 </nav>
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav align= 'center' class="port-card navbar navbar-expand-lg navbar-dark bg-dark port-card">
   <a class="navbar-brand" href="#">Analyzer
-    Range- {{ range }}
+    Range - {{ range }}
+    Day
   </a>
-  <div align="center" class="navbar-nav" >
-
-
-    
-    <a class="nav-item nav-link" color = "lightgray"> Debit {{ total_debit }}
-    <a class="nav-item nav-link"color = "lightgray"> Credit {{ total_credit }}
-    <a class="nav-item nav-link"color = "lightgray"> Potential Savings {{ total_savings }}
-    <a class="nav-item nav-link"color = "lightgray"> Realized Savings {{ realized_savings }}
-
-  </div>
-
-    
-    <a class="nav-item nav-link"> 
 
  <!--{{ pie_data }}  This will print the pie_data dictionary for debugging -->
-
+  <div class="container pie-card">
   <canvas id="myChart"></canvas>
   <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -95,33 +86,45 @@
       }
   });
 </script>
+</div>
 </nav>
 
+<nav align= 'center' class=" navbar navbar-expand-lg navbar-dark bg-dark port-card">
+  <p>Totals: </p>
+  <div class="navbar-nav" >
+    <a class="nav-item nav-link"> Debit {{ total_debit }}
+    <a class="nav-item nav-link"> Credit {{ total_credit }}
+    <a class="nav-item nav-link"> Potential Savings {{ total_savings }}
+    <a class="nav-item nav-link"> Realized Savings {{ realized_savings }}
+  </div>
+</nav>
+  
+      <nav class="port-card  navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-nav">
+          <h2 class="nav-brand"> Ratio of Income to Savings</h2>
+          <div class="navbar-nav">  
+            <p>Income : Realized : Potential</p><p>| {{ ratio }} |</p>
+            <hr>
+            <h6 class= "nav-item">We recommend at least 20 percent of your income to be saved.</h6>
+            <hr>
+              <a class="nav-item nav-link"> Start Date: {{ start_date }}
+              <a class="nav-item nav-link"> End Date: {{ end_date }}
+            </nav>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link"> Ratio - C:D:S - {{ ratio }}<br>
-      <a class="nav-item nav-link"> Range- {{ range }}
-      <a class="nav-item nav-link"> Start Date - {{ start_date }}
-      <a class="nav-item nav-link"> End Date - {{ end_date }}
+          </div>
 
-    </div>
+      </nav>
+  </div>
   <!-- Add more buttons as needed -->
 
     <script>
     function loadChartData(range) {
         window.location.href = `/home?range=${range}`;}
     </script>
-
 </nav>
 </div>
 
-
-
-
-
-
-
+<hr>
 
 {% endblock %}
 

@@ -61,8 +61,8 @@ def home():
     # Fetch and process the data for the chart
     chartData = p.query_and_process_ledger_entries(start_date_str, end_date_str, session, ledger)
     # Calculate ratio
-    total = chartData['debit'] + chartData['credit'] + chartData['savings'] + chartData['realized_savings']
-    ratio = f"{chartData['credit']/total:.2f} : {chartData['debit']/total:.2f} : {chartData['realized_savings']/total:.2f}" if total > 0 else "N/A"
+    total = chartData['credit']
+    ratio = f"inc-{chartData['credit']/total:.2f}  :  rs-{chartData['realized_savings']/total:.2f}  :   ps-{chartData['savings']/total:.2f}" if total > 0 else "N/A"
     p.printProccess(chartData)
     return render_template("home.html", 
                            user=current_user, 
