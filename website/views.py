@@ -62,12 +62,21 @@ def home():
     # Fetch and process the data for the chart
     chartData = p.query_and_process_ledger_entries(start_date_str, end_date_str, session, ledger)
     # Calculate ratio
-    total = chartData['debit'] + chartData['credit'] + chartData['savings']
-    ratio = f"{chartData['debit']/total:.2f}:{chartData['credit']/total:.2f}:{chartData['savings']/total:.2f}" if total > 0 else "N/A"
+    total = chartData['credit']
+    ratio = f"inc-{chartData['credit']/total:.2f}  :  rs-{chartData['realized_savings']/total:.2f}  :   ps-{chartData['savings']/total:.2f}" if total > 0 else "N/A"
     p.printProccess(chartData)
-    return render_template("home.html", user=current_user, pie_data=chartData, ratio=ratio, range=range_days)
-
-    #return render_template("home.html", user=current_user, pie_data=categorized_totals)
+    return render_template("home.html", 
+                           user=current_user, 
+                           pie_data=chartData, 
+                           ratio=ratio, 
+                           range=range_days, 
+                           start_date=start_date_str, 
+                           end_date=end_date_str, 
+                           total_debit = f"${chartData['debit']:.2f}", 
+                           total_credit = f"${chartData['credit']:.2f}", 
+                           total_savings = f"${chartData['savings']:.2f}", 
+                           total_transactions = f"${total:.2f}",
+                           realized_savings = f"${chartData['realized_savings']:.2f}")
 @views.route("/notes/", methods=["GET", "POST"])
 @login_required
 def notes():
@@ -139,7 +148,7 @@ def welcome():
             flash("Email must be more than 4 characters!", category="error")
             return render_template("welcome.html", user=current_user)
 
-    flash(f"We hope you choose our app! {userDetails}")
+    flash(f"We hope you choose our app!", category="success")
     
     return render_template("welcome.html", user=current_user)
 #
@@ -238,7 +247,7 @@ def delete_note():
         if note.user_id == current_user.id:
             db.session.delete(note)
             db.session.commit()
-    print(jsonify({}))
+    flash(jsonify({}))
 
     return jsonify({})
 
@@ -286,12 +295,11 @@ def add_ledger_entry():
     apr = 0.0
     uid = current_user.id #get user id to validate database prerequisites
     debt = True
-    if name == 'Salary':
+    if modelClass == 'Salary':
         debt = False
-    print(f"name: {name}, user_id: {uid}")
     # Find the portfolio with the same name as the name and belongs to the current user
     pid = Portfolio.query.filter_by(name=modelClass, user_id=uid).first()
-    print(pid)
+  
     # If no matching portfolio is found, flash an error message and redirect
     if not pid:
         flash('No portfolio found with the given name.', 'error')
@@ -327,16 +335,13 @@ def open_ledger():
     print(portfolio)
     if portfolio:
         if portfolio.user_id == current_user.id:
-            print(jsonify({}))
+            #print(jsonify({}))
             #return redirect(url_for('views.ledger',pid=portfolioId,user=current_user))
-    return jsonify({})
-    
+            return jsonify({})
+    else:
+        flash('No Portfolio Found')
+        return jsonify({})
             
-  
-           
-            
-#
-#
 # ----------<PUBLIC_PAGES>------------------------------------------------------------------------------------#
 # SUPPORT
 @public.route("/support/", methods=["GET", "POST"])
@@ -347,8 +352,9 @@ def support():
 # ABOUT
 @public.route("/about/", methods=["GET", "POST"])
 def about():
-    data = request.form
-    print(data)
+    
+    #data = request.form
+    #print(data)
     return render_template("about.html", user=current_user)
 #
 #
@@ -396,10 +402,11 @@ def enable_user():
             flash("User not found.", "error")
 
     return redirect(url_for('views.dashboard_admin'))
-#
+
 # ----------<END>------------------------------------------------------------------------------------#
+#
 @public.route("/test/", methods=["GET", "POST"])
 def test():
     data = request.form
-    print(data)
+    #print(data)
     return render_template("test.html", user=current_user)
