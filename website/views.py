@@ -460,15 +460,35 @@ def delete_account():
 @login_required
 def dashboard_admin():
     return render_template("dashboard_admin.html", user=current_user)
-@views.route("/dashboard_admin/", methods=["GET", "POST"])
-@login_required
-def enable_user():
-    pass
-    
-@views.route("/dashboard_admin/", methods=["GET", "POST"])
+@views.route("/disable_user/", methods=["GET", "POST"])
 @login_required
 def disable_user():
-    pass
+    if request.method == "POST":
+        target = request.form.get("target")
+        user_to_disable = User.query.get(target)
+        if user_to_disable:
+            user_to_disable.enabled_user = False
+            db.session.commit()
+            flash("User disabled successfully.", "success")
+        else:
+            flash("User not found.", "error")
+
+    return redirect(url_for('views.dashboard_admin'))
+
+@views.route("/enable_user/", methods=["GET", "POST"])
+@login_required
+def enable_user():
+    if request.method == "POST":
+        target = request.form.get("target")
+        user_to_enable = User.query.get(target)
+        if user_to_enable:
+            user_to_enable.enabled_user = True
+            db.session.commit()
+            flash("User enabled successfully.", "success")
+        else:
+            flash("User not found.", "error")
+
+    return redirect(url_for('views.dashboard_admin'))
 # ----------<END>------------------------------------------------------------------------------------#
     
 #
