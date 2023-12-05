@@ -2,11 +2,12 @@
 %}
     <h1 align="center">Admin Dashboard</h1>
     <br>
-    <h3 align="center">Enter User Email</h3>
-<form method="POST">
-  <textarea name="user" id="user" class="form-control"></textarea>
-  <button type="button" class="btn btn-primary" onClick='views.enable_user()' >Enable</button>
-  <button type="button" class="btn btn-primary" onClick='views.disable_user()' >Disable</button>
-  <br />
+    <h3 align="center" style="color: aliceblue;">Enter User ID</h3>
+
+<form method="POST" action="{{ url_for('views.disable_user', target=target) }}">
+  <textarea name="target" id="target" class="form-control"></textarea>
+  <button type="submit" class="close.btn.btn-primary" aria-label="Disable">Disable</button>
+
+  <button type="submit" class="close.btn.btn-primary" formaction="{{ url_for('views.enable_user', target=target) }}">Enable</button>
 </form>
     {% endblock %}
