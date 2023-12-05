@@ -1,96 +1,73 @@
 <style>
   .note-area{
-    
     width: 100%;
   }
+  .note-text{
+    width: 100%;
+    height: 200 px;
+  }
 </style>
-{% extends "base_auth.html" %} {% block title %}Notes{% endblock %} {% block content
-  %}
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="navbar-nav">
-        <div class="navbar-nav">
-      
-          <a class="nav-item nav-link" href="/home">DashBoard</a>
-          <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
-          <a class="nav-item nav-link" href="/ledger">Ledger</a>
-          <a class="navbar-brand nav-tabs "  href="/notes">Notes</a>
-          <a class="nav-item nav-link" href="/logout">Logout</a>
-        </div>
-    </nav>
-  </div>  
+{% extends "base_auth.html" %} 
+{% block title %}Notes{% endblock %} 
+{% block content %}
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="/home">DashBoard</a>
+      <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
+      <a class="nav-item nav-link" href="/ledger">Ledger</a>
+      <a class="navbar-brand nav-tabs "  href="/notes">Notes</a>
+      <a class="nav-item nav-link" href="/logout">Logout</a>
+    </div>
+  </nav>
+</div>  
+<div class="container col-md-4 col-md-offset-4  blue-card" >
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="display-3">Notes</h1>
+      <h4 class="lead">This is a simple notepad to keep record or notes.</h4>
+      <hr class="my-4">
+      <h3 class=''>To add a note, type in the text box and click the 'Add Note' button.
+        <hr>
+      <h3>You can DELETE a note by clicking the 'X' button on the right side of the note.</h3>
+      <p class="lead"></p>
+      <hr class="my-4">
+    </div>
+  </div>
   <hr>
-  <div class= "container col-md-4 col-md-offset-4 blue-card">
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="display-3">Notes</h1>
-        <p class="lead">This is a simple notepad to keep record or notes.
-          
-          
-        </p>
-        <hr class="my-4">
-        <p>
-          To add a note, type in the text box and click the 'Add Note' button.</p>
-        <p>  You can delete a note by clicking the 'X' button on the right side of the note
-        </p>
-        <p class="lead">
-  
-        </p>
-        <hr class="my-4">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <form class="note-area blue-card" method="POST">
+      <textarea name="note" id="note" class="form-control"></textarea>
+      <br>
+      <div class="btn btn-group-lg">
+        <button align="center" type="submit" class="btn btn-primary">Add Note</button>
       </div>
-    
+    </form>
+  </nav>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <a class="navbar-brand" href="#">{{current_user.username}}'s Notes</a>
+    <div class="container mt-4">
+      <div class="container blue-card">
+        <ul class="list-group list-group-flush" id="user-notes"style="overflow: auto;max-width: auto;max-height: 500px;">
+          {% for note in user.notes %}
+          <li class="list-nav-item form-group form-contro  note-textl" style="overflow: auto;">
+            <p>{{note.id}} | {{ note.data }}
+              <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </p>
+          </li>
+          {% endfor %} 
+        </ul>
+      </div>
+    </div>
   </nav>
 </div>
-  
-  <div class="container blue-card">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
-      <a class="navbar-brand" href="#">{{current_user.username}}'s Notes</a>
-      <div class="container mt-4">
-      
-      <div class="container blue-card ">
-      <ul class="list-group list-group-flush note-area" id="notes">
-        {% for note in user.notes %}
-        <li class=" list-nav-item form-control ">
-          <p>{{note.id}} |
-            {{ note.data }}
-            <button type="button" class="close" onClick="deleteNote( {{ note.id }} )">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </p>
-        </li>
-       
-        {% endfor %} 
-      </ul>
-    </div>
-    </nav>
-    <hr>
-   
-    
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card ">
-      <form class= "note-area blue-card" method="POST">
-        <textarea name="note" id="note" class=" form-control "></textarea>
-        <br>
-
-
-
-        
-        
-          <div  class="btn btn-group-lg">
-
-          <button align='center' type="submit" class="btn btn-primary">Add Note</button>
-          </div>
-      </form>
-
-    </nav>
- 
-</div>
-</div>
-
-
-
-
 <hr>
+</div>
 
+
+{% endblock %}
   
-  {% endblock %}
-  
+
+

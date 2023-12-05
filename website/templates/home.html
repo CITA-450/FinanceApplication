@@ -1,130 +1,125 @@
+<style>
+  h6,h5,h4{
+    color: white;
+  }
+</style>
 
-{% extends "base_auth.html" %} {% block title %}Home{% endblock %}
-{% block content
-  %}
-  <div class="container">
+{% extends "base_auth.html" %} 
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="navbar-nav">
-      <div class="navbar-nav">
-  
-      <a class="navbar-brand nav-tabs "  href="/home">DashBoard</a>
+      <a class="navbar-brand nav-tabs" href="/home">DashBoard</a>
       <a class="nav-item nav-link" href="/portfolio">Portfolio</a>
       <a class="nav-item nav-link" href="/ledger">Ledger</a>
       <a class="nav-item nav-link" href="/notes">Notes</a>
       <a class="nav-item nav-link" href="/logout">Logout</a>
     </div>
+  </nav>
+</div>
+<hr>
+
+<div class="container col-md-4 col-md-offset-4 blue-card">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="display-3">Cash Flow Analyzer</h1>
+        <p class="lead">This is a simple cash flow analyzer that will help you understand your cash flow.</p>
+        <hr class="my-4">
+        <h3>It uses the data from your ledger to calculate your cash flow.</h3>
+        <p class="lead"></p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <a class="navbar-brand" href="#">Finance Application</a>
+    <hr>
+    <hr>
+    <div class="btn-group" role="group" aria-label="Range buttons">
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('1')">1 Day</button>
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('7')">7 Day</button>
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('30')">30 Day</button>
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('60')">60 Day</button>
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('120')">120 Days</button>
+      <button type="submit" class="btn btn-primary" onclick="loadChartData('364')">Year</button>
     </div>
   </nav>
-  </div>
   <hr>
+  <h2 class="nav-brand">Analyzer</h2>
+  <hr>
+  <nav align='center' class="port-card navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <a class="navbar-brand " href="#">
+     <h3>Range - {{ range }} Day </h3>
+     <hr>
   
-<div class= "container col-md-4 col-md-offset-4 blue-card">
-  <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="display-3">Cash Flow Analyzer</h1>
-      <p class="lead">This is a simple cash flow analyzer that will help you understand your cash flow.</p>
-      <hr class="my-4">
-      <p>It uses the data from your ledger to calculate your cash flow.</p>
-      <p class="lead">
-
-      </p>
-    </div>
-  
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
-  <a class="navbar-brand" href="#">Finance Application</a>
- 
-  <hr>
-  <hr>
-  <div class="btn-group" role="group" aria-label="Range buttons">
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('1')">1 Day</button>
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('7')">7 Day</button>
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('30')">30 Day</button>
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('60')">60 Day</button>
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('120')">120 Days</button>
-    <button type="submit" class="btn btn-primary" onclick="loadChartData('364')">Year</button>
-</div>
-</nav>
-
-
-<nav align= 'center' class="port-card navbar navbar-expand-lg navbar-dark bg-dark port-card">
-  <a class="navbar-brand" href="#">Analyzer
-    Range - {{ range }}
-    Day
-  </a>
-
- <!--{{ pie_data }}  This will print the pie_data dictionary for debugging -->
-  <div class="container pie-card">
-  <canvas id="myChart"></canvas>
-  <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-          labels: ['Debit', 'Credit', 'Potential Savings', 'Realized Savings'],
-          datasets: [{
+    </a>
+    <div class="container pie-card">
+      <canvas id="myChart"></canvas>
+      <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Debit', 'Credit', 'Potential Savings', 'Realized Savings'],
+            datasets: [{
               label: 'Transactions',
               data: [{{ pie_data['debit'] }}, {{ pie_data['credit'] }}, {{ pie_data['savings'] }}, {{ pie_data['realized_savings'] }}],
               backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)', // Debit
-                  'rgba(75, 192, 192, 0.2)',  // Credit
-                  'rgba(54, 162, 235, 0.2)',  // Savings
-                  'rgba(128, 0, 128, 0.2)'    // Realized Savings (Purple)
+                'rgba(255, 99, 132, 0.2)', // Debit
+                'rgba(75, 192, 192, 0.2)',  // Credit
+                'rgba(54, 162, 235, 0.2)',  // Savings
+                'rgba(128, 0, 128, 0.2)'    // Realized Savings (Purple)
               ],
               borderColor: [
-                  'rgba(255, 99, 132, 1)', 
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(128, 0, 128, 1)'      // Border color for Realized Savings
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(128, 0, 128, 1)'      // Border color for Realized Savings
               ],
               borderWidth: 2
-          }]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false
-      }
-  });
-</script>
-</div>
-</nav>
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        });
+      </script>
+    </div>
+  </nav>
+  <hr>
+  <h2 class="nav-brand">Debt Cash & Savings</h2>
+  <hr>
+  <nav align='center' class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <h3>Totals:</h3>
+    <hr>
+    <div class="navbar-nav">
+      <a class="nav-item nav-link"> Debit {{ total_debit }}</a>
+      <a class="nav-item nav-link"> Credit {{ total_credit }}</a>
+      <a class="nav-item nav-link"> Potential Savings {{ total_savings }}</a>
+      <a class="nav-item nav-link"> Realized Savings {{ realized_savings }}</a>
+    </div>
+  </nav>
 
-<nav align= 'center' class=" navbar navbar-expand-lg navbar-dark bg-dark port-card">
-  <p>Totals: </p>
-  <div class="navbar-nav" >
-    <a class="nav-item nav-link"> Debit {{ total_debit }}
-    <a class="nav-item nav-link"> Credit {{ total_credit }}
-    <a class="nav-item nav-link"> Potential Savings {{ total_savings }}
-    <a class="nav-item nav-link"> Realized Savings {{ realized_savings }}
-  </div>
-</nav>
+  <h2 class="nav-brand">Ratio of Income to Savings</h2>
+  <nav class=" navbar navbar-expand-lg navbar-dark bg-dark port-card">
+    <h3>Ratio:</h3>
+    <hr>
+    <div align= 'center' class="navbar-nav">
+        <a class="nav-item nav-link">Income : Realized : Potential
+        <a class="nav-item nav-link">| {{ ratio }} |</a>
+    </div>
+  </nav>
+  <h6 class="nav-item nav-link"> Start Date: {{ start_date }} | End Date: {{ end_date }}</h6>
   
-      <nav class="port-card  navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="navbar-nav">
-          <h2 class="nav-brand"> Ratio of Income to Savings</h2>
-          <div class="navbar-nav">  
-            <p>Income : Realized : Potential</p><p>| {{ ratio }} |</p>
-            <hr>
-            <h6 class= "nav-item">We recommend at least 20 percent of your income to be saved.</h6>
-            <hr>
-              <a class="nav-item nav-link"> Start Date: {{ start_date }}
-              <a class="nav-item nav-link"> End Date: {{ end_date }}
-            </nav>
-
-          </div>
-
-      </nav>
-  </div>
-  <!-- Add more buttons as needed -->
-
-    <script>
-    function loadChartData(range) {
-        window.location.href = `/home?range=${range}`;}
-    </script>
-</nav>
 </div>
-
 <hr>
-
+<script>
+  function loadChartData(range) {
+    window.location.href = `/home?range=${range}`;
+  }
+</script>
 {% endblock %}
-

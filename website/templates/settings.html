@@ -1,6 +1,22 @@
 {% extends "base_auth.html" %} {% block title %}Account Settings{% endblock %} {% block
 content %}
-<h1 align="center">Account Settings!</h1>
+<hr>
+<div class = "container blue-card">
+  <div class= "container col-md-4 col-md-offset-4 blue-card">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class = 'display-2'> {{ current_user.username }}'s
+          </h2>
+          <h1 class="display-3">Account Settings!</h1>
+          <p class="lead"> You can change your account settings here.</p>
+          <hr class="my-4">
+          </p>
+
+        </div>
+      </div>
+    </div>
+<h1 align="center"></h1>
 <ul class="list-group list-group-flush" id="user">
 </ul>
 <form method="POST">
@@ -57,11 +73,61 @@ content %}
       />
     </div>
     <br />
+    <hr>
+    <div class="form-group">
+      <label for="pwcheck">Enter Current Password to Confirm Changes</label>
+      <input
+        type="password"
+        class="form-control"
+        id="pwcheck"
+        name="pwcheck"
+        placeholder="Enter CURRENT password!"
+      />
+    </div>
+    <br />
+    <hr>
+    <div align = "center">
+    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </div>
   </form>
-  <button type="submit" class="btn btn-primary">Delete Account</button>
-  <button type="submit" class="btn btn-primary">Back</button>
-  
-    <button type="submit" class="btn btn-primary">Submit</button>
+ 
+<hr>
+<hr>
+<hr>
+<div  align="center" class = "container nav nav-bar port-card">
+  <h3 align="center">Delete Account</h3>
+  <div class="container"> 
+  <p align="center">Warning: This action is irreversible</p>
+    <div class="row">
+      <div class="col-md-12">
+        <form align = "center" action="{{ url_for('views.delete_account') }}" method="post" onsubmit="return confirmDelete()">
+          <button type="submit" class="btn btn-danger">Delete Account</button>
+        </form>
+        
+        <br>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    function confirmDelete() {
+      var userInput = prompt("Please type 'delete' to confirm account deletion", "");
+      if (userInput == "delete") {
+        alert("Account deleted");
+        return true;
+      } else {
+        alert("Account deletion cancelled");
+        return false;
+      }
+    }
+    </script>
   </div>
-</form>
+  <button  class="btn btn-primary" onclick='location.href="{{ url_for('views.home') }}"'>Back</button>
+</div>
+</div>
+</div>
+<hr>
+
 {% endblock %}
