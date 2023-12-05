@@ -435,9 +435,10 @@ def settings():
         userCommit = db.session.commit()
         p.printProccess(userCommit)
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('settings', user=current_user))
+        return redirect(url_for('views.settings', user=current_user))
     
     return render_template('settings.html', user=current_user)
+
 # DELETE_ACCOUNT
 @views.route("/delete_account", methods=["POST"])
 @login_required
@@ -451,6 +452,14 @@ def delete_account():
         logout_user()  # Import this function from flask_login
         flash('Your account has been deleted!', 'success')
         return redirect(url_for('views.home'))
+    
+@views.route("/info/", methods=["GET"])
+@login_required
+def info():
+
+    return render_template('info.html', user=current_user)
+
+
 #
 # ----------<ADMIN>------------------------------------------------------------------------------------#
 #
