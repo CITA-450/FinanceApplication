@@ -6,16 +6,17 @@ content %}
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h2 class = 'display-2'> {{ current_user.username }}'s
-          </h2>
-          <h1 class="display-3">Account Settings!</h1>
-          <p class="lead"> You can change your account settings here.</p>
-          <hr class="my-4">
-          </p>
+<h1 class = 'display-2'> {{ current_user.username }}'s
+</h1>
+<h1 class="display-4">Account Settings!</h1>
+<hr class="my-4">
+<p class="lead"> You can change your account settings here.</p>
+<hr class="my-4">
+</p>
 
-        </div>
-      </div>
-    </div>
+</div>
+</div>
+</div>
 <h1 align="center"></h1>
 <ul class="list-group list-group-flush" id="user">
 </ul>
@@ -25,11 +26,11 @@ content %}
     <div class="form-group">
       <label for="username">Username</label>
       <input
-        type="username"
-        class="form-control"
-        id="username"
-        name="username"
-        placeholder="{{user.username}}"
+      type="username"
+      class="form-control"
+      id="username"
+      name="username"
+      placeholder="{{user.username}}"
       />
     </div>
     <div class="form-group">
@@ -40,26 +41,26 @@ content %}
         id="email"
         name="email"
         placeholder="{{user.email}}"
-      />
-    </div>
-    <div class="form-group">
-      <label for="email2">Backup Email Address</label>
-      <input
+        />
+      </div>
+      <div class="form-group">
+        <label for="email2">Backup Email Address</label>
+        <input
         type="backup_email"
         class="form-control"
         id="backup_email"
         name="backup_email"
         placeholder="{{user.backup_email}}"
-      />
-    </div>
+        />
+      </div>
     <div class="form-group">
       <label for="password1">Password</label>
       <input
-        type="password"
-        class="form-control"
-        id="password1"
-        name="password1"
-        placeholder="Enter password"
+      type="password"
+      class="form-control"
+      id="password1"
+      name="password1"
+      placeholder="Enter password"
       />
     </div>
     <div class="form-group">
@@ -70,48 +71,48 @@ content %}
         id="password2"
         name="password2"
         placeholder="Re-Enter password"
-      />
-    </div>
-    <br />
+        />
+      </div>
+      <br />
     <hr>
     <div class="form-group">
       <label for="pwcheck">Enter Current Password to Confirm Changes</label>
       <input
-        type="password"
+      type="password"
         class="form-control"
         id="pwcheck"
         name="pwcheck"
         placeholder="Enter CURRENT password!"
-      />
-    </div>
-    <br />
+        />
+      </div>
+      <br />
+      <hr>
+      <div align = "center">
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </div>
+    </form>
+    
     <hr>
-    <div align = "center">
-    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-    </div>
-  </form>
- 
-<hr>
-<hr>
-<hr>
-<div  align="center" class = "container nav nav-bar port-card">
-  <h3 align="center">Delete Account</h3>
-  <div class="container"> 
-  <p align="center">Warning: This action is irreversible</p>
-    <div class="row">
-      <div class="col-md-12">
-        <form align = "center" action="{{ url_for('views.delete_account') }}" method="post" onsubmit="return confirmDelete()">
-          <button type="submit" class="btn btn-danger">Delete Account</button>
+    <hr>
+    <hr>
+    <div  align="center" class = "container nav nav-bar port-card">
+      <h3 align="center">Delete Account</h3>
+      <div class="container"> 
+        <p align="center">Warning: This action is irreversible</p>
+        <div class="row">
+          <div class="col-md-12">
+            <form align = "center" action="{{ url_for('views.delete_account') }}" method="post" onsubmit="return confirmDelete()">
+              <button type="submit" class="btn btn-danger">Delete Account</button>
         </form>
         
         <br>
+        
+        
+        
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-  <script>
+        <script>
     function confirmDelete() {
       var userInput = prompt("Please type 'delete' to confirm account deletion", "");
       if (userInput == "delete") {
@@ -122,12 +123,16 @@ content %}
         return false;
       }
     }
-    </script>
+  </script>
   </div>
   <button  class="btn btn-primary" onclick='location.href="{{ url_for('views.home') }}"'>Back</button>
+</div>
+</div>
+
 </div>
 </div>
 </div>
 <hr>
 
 {% endblock %}
+

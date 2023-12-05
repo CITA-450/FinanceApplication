@@ -2,6 +2,33 @@
 {% extends "base_auth.html" %} {% block title %}Welcome{% endblock %} {% block content
   %}
   <hr>
+  <div class = 'container blue-card'>
+    <h2>Welcome to Finance Tracker</h2>
+    <p>
+      Manage your finances effectively with our easy-to-use ledger and portfolio tools. 
+      Start by signing up and exploring the various features we offer.
+    </p>
+    
+    <h3>How to Get Started</h3>
+    <ol  style= "color : gold;">
+      <li>
+        <strong>Sign Up:</strong> Create a new account by clicking on the 'Sign Up' link. 
+        Fill in the required information to get your account ready.
+      </li>
+      <li>
+        <strong>Create Your First Ledger:</strong> Once signed in, navigate to the ledger 
+        section to start tracking your expenses, income, and savings.
+      </li>
+      <li>
+        <strong>Manage Your Portfolio:</strong> Use the portfolio section to get an 
+        overview of your financial status and plan accordingly.
+      </li>
+    </ol>
+  
+    <p>If you have any questions or need help, visit our <a href="/support">Support Page</a>.</p>
+  
+    <!-- Existing content of welcome.html, if any, can go here -->
+  <hr> 
   <form method="POST">
     <h2>Welcome</h2>
     <h5>Have you made an account?</h5>
@@ -25,10 +52,17 @@
         placeholder="Check your username"
       />
     </div>
+
+
     <br />
+    
     <button type="submit" class="btn btn-primary">Check us out</button>
   </form>
   <a class="nav-item nav-link" id="sign-up" href="/sign-up">Goto Sign-up</a>
+  </div>
+  <br>
+
+  <hr>
   {% endblock %}
 
     

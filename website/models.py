@@ -64,37 +64,11 @@ class Ledger(db.Model): #Budget Ledger Lines
             return c
         elif debt == False:
             return d 
-    """def __init__(self,id,bod,name,amount,modelClass,details,begin,end,freq,apr,port_id, *args, **kwargs):
-        id = self.id
-        bod = self.bod
-        name = self.name
-        debt = self.debt
-        amount = self.amount
-        modelClass = self.modelClass
-        details = self.details
-        begin = self.begin
-        end = self.end
-        freq = self.freq
-        apr = 0.0
-        port_id = self.port_id
-        
-        
-    def __repr__(self): #verbose return on self
-        class_name = type(self).__name__
-        return f"{class_name}<(LID={self.id}, PID={self.port_id}, BOD={self.bod}\n\t Name={self.name}, Debt={self.debt}, Amount={self.amount}, Start={self.begin}, End={self.end}, Frequency={self.freq},\n\t\t APR={self.apr}\n\t\t\t Details={self.details}"
-    def __str__(self):
-        gpa = self.getPerAmount()
-        debtString = self.getDebtString()
-        return f"<{self.modelClass}.{self.name}>[{debtString}${gpa} per {self.freq.__name__}]" """
-        
 
- 
 
 #----------<PORTFOLIO>------------------------------------------------------------------------------------#
-
 class Portfolio(db.Model ):
    
-    
     id= db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String(150))
     enabled= db.Column(db.Boolean,default=True)
@@ -103,8 +77,8 @@ class Portfolio(db.Model ):
     ledgers = db.relationship('Ledger', back_populates='portfolio')
 
 #----------<NOTES>------------------------------------------------------------------------------------#
-
 class Note(db.Model ):
+    
     id= db.Column(db.Integer,primary_key=True)
     data= db.Column(db.String(10000))
     date= db.Column(db.DateTime(timezone=True),default=func.now())
@@ -113,6 +87,7 @@ class Note(db.Model ):
 #----------<USER>------------------------------------------------------------------------------------#
 
 class User(db.Model,UserMixin):# User class is the main accessor for the user data
+    
     id= db.Column(db.Integer,primary_key=True)
     bod= db.Column(db.DateTime(timezone=True), default=func.now()) #born on date
     username= db.Column(db.String(150),unique=True)
@@ -124,13 +99,6 @@ class User(db.Model,UserMixin):# User class is the main accessor for the user da
     notes= db.relationship("Note")
     ledger= db.relationship("Ledger")
     
-    """ def __init__(self,id,bod,username,email,backup_email,password,enabled_user):
-        pass
-    def __repr__(self):
-        pass
-    def __str__(self):
-        pass"""
-        
 
 # Public Classes
 #----------<FUNCTIONS>------------------------------------------------------------------------------------#

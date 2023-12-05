@@ -1,5 +1,5 @@
 {% extends "base_auth.html" %}
-Portfolio
+{% block title %}FinanceApp-Portfolio{% endblock %}
 {% block content %}
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,7 +27,11 @@ Portfolio
     </div>
   </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Select Ledger</a>
+    <a class="navbar-brand " href="#">
+      <h3>Select Ledger</h3>
+     </a>
+
+    
     <!-- Ledger buttons -->
     <div class="btn-group" role="group" aria-label="Ledger buttons">
     {% for portfolio in user.portfolio %}
@@ -42,7 +46,10 @@ Portfolio
       <!-- Recent Activity Log -->
       
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand " href="#">Recent Activity</a>
+      <a class="navbar-brand " href="#">
+        <h3>Recent Activity
+        </h3>          
+        </a>
       <div class = "container  ">
         <ul class="list-group blue-card">
           {% for entry in recent_activities %}

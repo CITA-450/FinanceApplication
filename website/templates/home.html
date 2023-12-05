@@ -5,7 +5,7 @@
 </style>
 
 {% extends "base_auth.html" %} 
-{% block title %}Home{% endblock %}
+{% block title %}FinanceApp-DashBoard{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -35,9 +35,14 @@
   </div>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
-    <a class="navbar-brand" href="#">Finance Application</a>
-    <hr>
-    <hr>
+    <a class="navbar-brand " href="#">
+      
+     
+      <h3>Range - {{ range }} Day </h3>
+   
+     </a>
+   
+ 
     <div class="btn-group" role="group" aria-label="Range buttons">
       <button type="submit" class="btn btn-primary" onclick="loadChartData('1')">1 Day</button>
       <button type="submit" class="btn btn-primary" onclick="loadChartData('7')">7 Day</button>
@@ -51,11 +56,7 @@
   <h2 class="nav-brand">Analyzer</h2>
   <hr>
   <nav align='center' class="port-card navbar navbar-expand-lg navbar-dark bg-dark port-card">
-    <a class="navbar-brand " href="#">
-     <h3>Range - {{ range }} Day </h3>
-     <hr>
-  
-    </a>
+
     <div class="container pie-card">
       <canvas id="myChart"></canvas>
       <script>

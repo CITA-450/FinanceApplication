@@ -31,7 +31,7 @@ port-card{
 }
 </style>
 {% extends "base_auth.html" %}
-Ledger
+{% block title %}FinanceApp-Ledger{% endblock %}
 {% block content %}
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark  ">
@@ -59,9 +59,12 @@ Ledger
     </div>
   </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand">Select Ledger</a>
+
+  <a class="navbar-brand " href="#">
+    <h3>Select Ledger</h3>
+  </a>
   <div class="btn-group" role="group" aria-label="Ledger buttons">
-    <!-- Ledger buttons -->
+
       {% for portfolio in user.portfolio %}
       <button type="submit" class="btn btn-primary" onclick= 'location.href="{{ url_for('views.ledger',default_ledger=portfolio.name) }}"'>{{portfolio.name}}</button>
       {% endfor %}

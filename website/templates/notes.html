@@ -6,9 +6,12 @@
     width: 100%;
     height: 200 px;
   }
+  h4{
+    color: white;
+  }
 </style>
 {% extends "base_auth.html" %} 
-{% block title %}Notes{% endblock %} 
+{% block title %}FinanceApp-Notes{% endblock %}
 {% block content %}
 <div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,13 +47,13 @@
       </div>
     </form>
   </nav>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark port-card" style="max-height: auto;">
     <a class="navbar-brand" href="#">{{current_user.username}}'s Notes</a>
     <div class="container mt-4">
       <div class="container blue-card">
         <ul class="list-group list-group-flush" id="user-notes"style="overflow: auto;max-width: auto;max-height: 500px;">
           {% for note in user.notes %}
-          <li class="list-nav-item form-group form-contro  note-textl" style="overflow: auto;">
+          <li class="list-nav-item form-group form-contro  note-text" style="overflow: auto;">
             <p>{{note.id}} | {{ note.data }}
               <button type="button" class="close" onClick="deleteNote({{ note.id }})">
                 <span aria-hidden="true">&times;</span>
